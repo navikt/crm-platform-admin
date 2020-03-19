@@ -1,0 +1,63 @@
+<template>
+    <div style="height: 100%">
+        <template if:true={showObjectPermissionSpinner}>
+            <lightning-spinner variant="brand" size="large"></lightning-spinner>
+        </template>
+
+        <lightning-card>
+            <div slot="title">
+                <div class="slds-media">
+                    <div class="slds-media__figure">
+                        <lightning-icon icon-name="custom:custom39" size="large"></lightning-icon>
+                    </div>
+                    <div class="slds-media__body">
+                        <h3>Object Permission Viewer</h3>
+                    <p class="slds-page-header__name-meta">
+                        Shows all "View All" / "Modify All" Object Permissions granted through Permission Sets.<br/>
+                        Violations are reported for permissions more permissive than defined in the <b>Permission Analyzer Object Settings</b> Custom Metadata object.
+                    </p>
+                    </div>
+                </div>
+            </div>
+
+            <lightning-input type="toggle" label="Show Only Custom Permission Sets" name="customPermsetToggle"
+                             checked={onlyCustomPermissionSets} onchange={handleToggleChange} slot="actions"
+                             message-toggle-active=""
+                             message-toggle-inactive="">
+            </lightning-input>
+
+            <div class={objectPermissionTableClass}>
+                <lightning-datatable
+                        hide-checkbox-column
+                        key-field="uniqueKey"
+                        data={objectPermissions}
+                        columns={objectPermissionColumns}
+                        onrowaction={handleRowAction}>
+                </lightning-datatable>
+            </div>
+        </lightning-card>
+
+        <template if:true={assignedUserProfiles}>
+            <div class="bottom-card slds-p-right_small">
+                <lightning-card>
+                    <h3 slot="title">
+                        <b>{selectedPermissionSetName}</b>: Permission Set Assignments by Profile
+                    </h3>
+                    <lightning-button-icon icon-name="utility:close" variant="border" alternative-text="Close"
+                                           slot="actions"
+                                           onclick={handleAssignedUserProfilesClose}></lightning-button-icon>
+                    <div style="height: 350px">
+                        <lightning-datatable
+                                hide-checkbox-column
+                                key-field="id"
+                                data={assignedUserProfiles}
+                                columns={assignedUserProfilesColumns}>
+                        </lightning-datatable>
+                    </div>
+
+                </lightning-card>
+            </div>
+        </template>
+    </div>
+
+</template>

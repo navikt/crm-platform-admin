@@ -1,0 +1,13 @@
+.full-height {
+    height: 80vh;
+}
+
+.adaptive-height {
+    height: 52vh;
+}
+
+.bottom-card {
+    position: fixed;
+    bottom: 0px;
+    height: 30vh;
+}
