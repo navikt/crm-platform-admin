@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <applicationVisibilities>
+        <application>Platform_Administration</application>
+        <visible>true</visible>
+    </applicationVisibilities>
+    <description>Grants access to the &quot;System Administration&quot; Lightning App. Intended for administrators and developers who need access to monitoring the system.</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>CRM - Administration App</label>
+</PermissionSet>
