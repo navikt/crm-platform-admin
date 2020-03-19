@@ -1,0 +1,45 @@
+<template>
+    <li class="slds-item" key={pckge.Name}>
+        <article class="slds-tile slds-tile_board">
+            <div class="slds-grid slds-grid_align-spread slds-has-flexi-truncate">
+
+                <h3 class="slds-tile__title slds-truncate" title={pckge.Name}>
+                    <a href="javascript:void(0);">{pckge.Name}</a>
+                </h3>
+
+                <div class="slds-shrink-none">
+                    <lightning-button-icon icon-name="utility:setup_assistant_guide"
+                                           size="small"
+                                           alternative-text={deployAlternativeText}
+                                           disabled={deployDisabled}
+                                           tooltip="Deploy package version"
+                                           class="slds-m-right_xxx-small" onclick={handleClickDeploy} data-pckge={pckge.Id}></lightning-button-icon>
+                </div>
+            </div>
+
+
+            <div class="slds-tile__detail">
+                <p class="slds-text-heading_medium">{pckge.UPM_Version__c}</p>
+                <p class="slds-truncate" title={pckge.UPM_Version__c}>
+                    {pckge.UPM_Description__c}</p>
+                <p class="slds-truncate" title="Released">Is Released:&nbsp;
+                    <template if:true={pckge.UPM_IsBeta__c}>
+                        ❌
+                    </template>
+                    <template if:false={pckge.UPM_IsBeta__c}>
+                        ✅
+                    </template>
+                </p>
+                <p class="slds-truncate" title="Released">Requires Key:&nbsp;
+                    <template if:false={pckge.UPM_IsHasKey__c}>
+                        ❌
+                    </template>
+                    <template if:true={pckge.UPM_IsHasKey__c}>
+                        ✅
+                    </template>
+                </p>
+            </div>
+
+        </article>
+    </li>
+</template>

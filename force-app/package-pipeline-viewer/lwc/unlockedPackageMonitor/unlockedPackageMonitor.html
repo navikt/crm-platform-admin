@@ -1,0 +1,24 @@
+<template>
+
+
+    <div class="slds-box" style="width:100%;background-color:#FFFFFF">
+
+        <c-modal show-modal="false"></c-modal>
+
+
+        <lightning-layout multiple-rows=false horizontal-align="space">
+            <template if:true={orgs}>
+                <template for:each={orgs} for:item="org">
+                    <lightning-layout-item key={org.Name} flexibility="grow" padding="around-medium">
+                       <c-environment-card org={org} onrefreshenvironment={refreshOrg} ondeployclicked={handleDeploy}></c-environment-card>
+                    </lightning-layout-item>
+
+                </template>
+            </template>
+
+        </lightning-layout>
+
+    </div>
+
+
+</template>

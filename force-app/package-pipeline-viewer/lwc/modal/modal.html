@@ -1,0 +1,89 @@
+<template>
+    <template if:true={showModal}>
+        <section role="dialog"
+                 tabindex="-1"
+                 aria-labelledby="modal-heading-01"
+                 aria-modal="true"
+                 aria-describedby="modal-content-id-1"
+                 class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <lightning-button-icon class="slds-modal__close"
+                                           title="Close"
+                                           icon-name="utility:close"
+                                           icon-class="slds-button_icon-inverse"
+                                           onclick={handleClose}>
+                    </lightning-button-icon>
+
+                    <h2 class="slds-text-heading_medium slds-hyphenate header-string">
+                        Deploy <b>{selectedInstalledPackage.Name}</b> to <b>Production</b>
+                    </h2>
+                </header>
+
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+
+
+                    <template if:true={deployStep}>
+
+                        Showing the last 5 Workflow Runs for <a href={githubWorkflow.html_url}>{githubWorkflow.name}</a>:
+                        <br/><br/>
+
+                        <div class="slds-is-relative">
+                            <template if:true={loadingWorkflowRuns}>
+                                <lightning-spinner></lightning-spinner>
+                            </template>
+                            <template for:each={githubWorkflowRuns} for:item="wfRun">
+                                <c-workflow-run-status key={wfRun.id} workflow-run={wfRun}></c-workflow-run-status>
+                            </template>
+                        </div>
+
+                        <br/>
+                        Refreshing status in {secondsCounter} seconds
+
+
+                    </template>
+
+                    <template if:false={deployStep}>
+                        <template if:true={githubWorkflow}>
+                            The GitHub workflow <a href={githubWorkflow.html_url}>{githubWorkflow.name}</a> was found at
+                            <a href={githubWorkflow.html_url}> {githubWorkflow.html_url}</a>
+                            <br/><br/>
+
+                            The workflow will be dispatched with the following payload:
+                            <pre class="slds-box slds-theme_shade">
+                                <code>
+                                    <div class="slds-text-font_monospace"> { </div>
+                                    <div class="slds-text-font_monospace">   "event_type": "on-demand-test", </div>
+                                    <div class="slds-text-font_monospace">   "client_payload": { </div>
+                                    <div class="slds-text-font_monospace">     "unit": false, </div>
+                                    <div class="slds-text-font_monospace">     "integration": true </div>
+                                    <div class="slds-text-font_monospace">   } </div>
+                                    <div class="slds-text-font_monospace"> } </div>
+                                </code>
+
+                            </pre>
+
+                        </template>
+                    </template>
+
+
+                </div>
+
+                <footer class="slds-modal__footer">
+                    <lightning-button
+                            class="slds-m-right_x-small"
+                            label="Cancel"
+                            variant="neutral"
+                            onclick={handleClose}
+                    ></lightning-button>
+                    <lightning-button
+                            label="Deploy"
+                            variant="brand"
+                            onclick={handleDeploy}
+                    ></lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>
