@@ -1,13 +1,13 @@
 import { LightningElement, track, wire } from "lwc";
 import refreshOrg from "@salesforce/apex/DevopsDashboardController.refreshOrgs";
 import getOrgs from "@salesforce/apex/DevopsDashboardController.getOrgs";
-import { NavigationMixin } from 'lightning/navigation';
-
+import { NavigationMixin } from "lightning/navigation";
+import { ShowToastEvent } from "lightning/platformShowToastEvent";
 
 
 export default class UnlockedPackageMonitor extends NavigationMixin(LightningElement) {
 
-  orgs;
+  @track orgs;
 
   connectedCallback() {
     this.getOrgs();
@@ -28,40 +28,30 @@ export default class UnlockedPackageMonitor extends NavigationMixin(LightningEle
     let orgToUpdate = this.orgs.filter(org => org.Id == orgId)[0];
     orgToUpdate.loading = true;
 
-    refreshOrg({orgIds: [event.detail]}).then(result => {
+    refreshOrg({ orgIds: [event.detail] }).then(result => {
       self.getOrgs();
       orgToUpdate.loading = false;
     }).catch(error => {
+      orgToUpdate.loading = false;
       console.log(error);
+      this.dispatchEvent(new ShowToastEvent({
+        title: "An error occured while querying installed packages",
+        message: "Check the application debug logs for more info",
+        variant: "error",
+        mode: "dismissable"
+      }));
     });
   }
 
   navigateToRecordViewPage(event) {
     console.log(event.target.dataset.orgid);
     this[NavigationMixin.Navigate]({
-      type: 'standard__recordPage',
+      type: "standard__recordPage",
       attributes: {
         recordId: event.target.dataset.orgid,
-        actionName: 'view'
+        actionName: "view"
       }
     });
-  }
-
-  handleDeploy(event) {
-    let selectedInstalledPackage;
-
-    this.orgs.forEach(org => {
-      if(org.hasOwnProperty('UPM_InstalledPackages__r')) {
-        org.UPM_InstalledPackages__r.forEach(installedPackage => {
-          if(installedPackage.Id === event.detail) {
-            selectedInstalledPackage = installedPackage;
-          }
-        })
-      }
-    });
-
-    const modal = this.template.querySelector('c-modal');
-    modal.show(selectedInstalledPackage);
   }
 
 }
