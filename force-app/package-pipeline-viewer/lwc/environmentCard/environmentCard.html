@@ -17,7 +17,7 @@
             </lightning-button-icon>
         </div>
 
-        <!--        Show placeholder illustration if no installed packages are found for the environmentm-->
+        <!--        Show placeholder illustration if no installed packages are found for the environment-->
         <template if:false={org.UPM_InstalledPackages__r}>
             <div class="slds-illustration slds-illustration_large" aria-hidden="true">
                 <img src="/img/chatter/Desert.svg" class="slds-illustration__svg" alt=""
@@ -31,7 +31,7 @@
         <template if:true={org.UPM_InstalledPackages__r}>
             <ul class="slds-has-dividers_around-space slds-p-around--medium">
                 <template for:each={org.UPM_InstalledPackages__r} for:item="pckge">
-                    <li class="slds-item" key={pckge.Id}>
+                    <li key={pckge.Id}>
                         <c-installed-package-tile pckge={pckge} ondeploy={handleDeploy}></c-installed-package-tile>
                     </li>
                 </template>
