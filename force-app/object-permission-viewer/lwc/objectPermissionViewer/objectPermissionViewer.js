@@ -43,7 +43,6 @@ export default class ObjectPermissionViewer extends LightningElement {
     if (data) {
       this.objectPermissions = data;
       this.error = undefined;
-      this.assignedUsers = data[1].assignedUsers;
       this.showObjectPermissionSpinner = false;
     } else if (error) {
       this.error = error;
