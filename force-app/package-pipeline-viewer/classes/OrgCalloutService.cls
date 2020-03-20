@@ -51,7 +51,7 @@ public with sharing class OrgCalloutService {
         req.setMethod('GET');
         req.setEndpoint('callout:'
                 + namedCredential
-                + '/services/data/v47.0/tooling/query/?q=' +
+                + '/services/data/v48.0/tooling/query/?q=' +
                 'SELECT+Id,' +
                 '+SubscriberPackageId,' +
                 '+SubscriberPackage.NamespacePrefix,' +
