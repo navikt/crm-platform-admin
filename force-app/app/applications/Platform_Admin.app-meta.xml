@@ -6,15 +6,18 @@
         <logoVersion>1</logoVersion>
         <shouldOverrideOrgTheme>true</shouldOverrideOrgTheme>
     </brand>
+    <description>Tools for system administration and monitoring</description>
     <formFactors>Large</formFactors>
     <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
     <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
-    <label>Platform Administration</label>
+    <label>Platform Admin</label>
     <navType>Standard</navType>
     <setupExperience>all</setupExperience>
     <tabs>standard-home</tabs>
     <tabs>Object_Permission_Viewer</tabs>
+    <tabs>Development_Pipeline</tabs>
+    <tabs>UPM_Environment__c</tabs>
+    <tabs>UPM_UnlockedPackage__c</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>Administration_UtilityBar</utilityBar>
-    <description>Tools for system administration and monitoring</description>
 </CustomApplication>
