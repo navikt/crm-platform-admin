@@ -3,7 +3,7 @@
         <lightning-layout multiple-rows=false horizontal-align="space" class="slds-grid_vertical-stretch">
             <template if:true={orgs}>
                 <template for:each={orgs} for:item="org">
-                    <lightning-layout-item key={org.Name} flexibility="grow" padding="around-medium">
+                    <lightning-layout-item key={org.Name} flexibility="grow" padding="horizontal-medium">
                        <c-environment-card org={org} onrefreshenvironment={refreshOrg}></c-environment-card>
                     </lightning-layout-item>
 

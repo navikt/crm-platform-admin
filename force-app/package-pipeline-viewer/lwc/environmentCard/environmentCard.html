@@ -6,7 +6,12 @@
         </template>
 
         <div slot="title">
-            <a onclick={navigateToRecordViewPage} data-orgid={org.Id}>{org.Name}</a>
+            <a onclick={navigateToRecordViewPage}>{org.Name}</a> <br/>
+            <p class="slds-text-body_small">
+                 Last queried @&nbsp;
+                <lightning-formatted-date-time value={org.LastQueried__c} year="numeric" month="numeric" day="numeric" hour="numeric"
+                                               minute="2-digit" hour12="true"></lightning-formatted-date-time>
+            </p>
         </div>
 
 
@@ -29,7 +34,7 @@
         </template>
 
         <template if:true={org.UPM_InstalledPackages__r}>
-            <ul class="slds-has-dividers_around-space slds-p-around--medium">
+            <ul class="slds-has-dividers_around-space slds-p-horizontal_medium">
                 <template for:each={org.UPM_InstalledPackages__r} for:item="pckge">
                     <li key={pckge.Id}>
                         <c-installed-package-tile pckge={pckge} ondeploy={handleDeploy}></c-installed-package-tile>

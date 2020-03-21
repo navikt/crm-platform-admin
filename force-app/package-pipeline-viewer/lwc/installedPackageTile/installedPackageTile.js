@@ -15,5 +15,9 @@ export default class InstalledPackageTile extends NavigationMixin(LightningEleme
     });
   }
 
+  get tileStyle() {
+    return 'background-color: #' + this.pckge.UnlockedPackage__r.ColorCode__c;
+  }
+
 
 }

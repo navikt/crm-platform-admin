@@ -1,6 +1,7 @@
 import { LightningElement, api } from "lwc";
+import { NavigationMixin } from "lightning/navigation";
 
-export default class EnvironmentCard extends LightningElement {
+export default class EnvironmentCard extends NavigationMixin(LightningElement) {
   @api org;
 
   handleRefreshEnvironment(event) {
@@ -14,6 +15,17 @@ export default class EnvironmentCard extends LightningElement {
       detail: evt.detail
     });
     this.dispatchEvent(event);
+  }
+
+  navigateToRecordViewPage() {
+    // View a custom object record.
+    this[NavigationMixin.Navigate]({
+      type: 'standard__recordPage',
+      attributes: {
+        recordId: this.org.Id,
+        actionName: 'view'
+      }
+    });
   }
 
 

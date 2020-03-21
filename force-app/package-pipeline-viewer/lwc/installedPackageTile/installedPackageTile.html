@@ -2,8 +2,8 @@
     <li key={pckge.Name}>
 
         <div class="slds-app-launcher__tile slds-text-link_reset slds-truncate">
-        <div class="slds-app-launcher__tile-figure symbol">
-                <span class="slds-avatar slds-avatar_large">CRM</span>
+        <div class="slds-app-launcher__tile-figure symbol" style={tileStyle}>
+                <span class="slds-avatar slds-avatar_large" style="line-height: 50px;">{pckge.UnlockedPackage__r.Team__c}</span>
             </div>
             <div class="slds-app-launcher__tile-body">
                 <a href="javascript:void(0);" onclick={navigateToRecordViewPage}>{pckge.Name}</a>
