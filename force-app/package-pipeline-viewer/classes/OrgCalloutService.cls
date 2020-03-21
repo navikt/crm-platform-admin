@@ -27,6 +27,7 @@ public with sharing class OrgCalloutService {
             QueryResponseFormat qrf = QueryResponseFormat.parse(body);
 
             for (QueryResponseFormat.record record : qrf.records) {
+                // Instantiate new InstalledPackage records
                 UPM_InstalledPackage__c ip = new UPM_InstalledPackage__c();
                 ip.UPM_Environment__c = org.Id;
                 ip.Name = record.subscriberPackage.name;
@@ -40,8 +41,15 @@ public with sharing class OrgCalloutService {
             }
         }
 
+        // Instantiate new Environment records in order to update LastQueried field
+        List<UPM_Environment__c> environmentsToUpdate = new List<UPM_Environment__c>();
+        for (Id envId : orgIds) {
+            environmentsToUpdate.add(new UPM_Environment__c(Id=envId, LastQueried__c=Datetime.now()));
+        }
+
         delete [SELECT Id FROM UPM_InstalledPackage__c WHERE UPM_Environment__c IN :orgIds];
         insert ipsToInsert;
+        update environmentsToUpdate;
     }
 
 
