@@ -54,3 +54,5 @@ local-scripts/
 .prettierignore
 
 .prettierrc
+
+scripts/shell/InstalledPackageVersionQuery

@@ -5,7 +5,7 @@
   "description": "Salesforce App",
   "scripts": {
     "lint": "npm run lint:lwc",
-    "lint:lwc": "eslint force-app/main/default/lwc",
+    "lint:lwc": "eslint force-app/package-dependency-viewer/lwc",
     "test": "npm run test:unit",
     "test:unit": "sfdx-lwc-jest",
     "test:unit:watch": "sfdx-lwc-jest --watch",

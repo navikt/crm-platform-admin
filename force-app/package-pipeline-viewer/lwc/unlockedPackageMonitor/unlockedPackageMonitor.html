@@ -1,14 +1,33 @@
 <template>
-    <div class="slds-box" style="width:100%;background-color:#FFFFFF">
-        <lightning-layout multiple-rows=false horizontal-align="space" class="slds-grid_vertical-stretch">
+
+
+    <lightning-card>
+        <div slot="title">
+            <div class="slds-media">
+                <div class="slds-media__figure">
+                    <lightning-icon icon-name="standard:kanban" size="large"></lightning-icon>
+                </div>
+                <div class="slds-media__body">
+                    <h3>Development Pipeline Viewer</h3>
+                    <p class="slds-page-header__name-meta">
+                        Shows the currently installed package versions for all packages and environments defined in the "Unlocked Package" and "Environment" custom objects.<br/>
+                        Installed package versions are queried through the Tooling API every 2 hours and can also refreshed manually.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <lightning-layout multiple-rows=false horizontal-align="space" class="slds-grid_vertical-stretch slds-border_top">
             <template if:true={orgs}>
                 <template for:each={orgs} for:item="org">
-                    <lightning-layout-item key={org.Name} flexibility="grow" padding="horizontal-medium">
-                       <c-environment-card org={org} onrefreshenvironment={refreshOrg}></c-environment-card>
+                    <lightning-layout-item key={org.Name} flexibility="grow" padding="around-small">
+                        <c-environment-card org={org} onrefreshenvironment={refreshOrg} class="slds-p-top-small"> </c-environment-card>
                     </lightning-layout-item>
 
                 </template>
             </template>
         </lightning-layout>
-    </div>
+
+    </lightning-card>
+
 </template>
