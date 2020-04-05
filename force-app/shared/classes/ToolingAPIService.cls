@@ -50,6 +50,8 @@ public class ToolingAPIService {
         HttpRequest request = this.getQueryRequest('SELECT Id, (SELECT Id, SubscriberPackageVersionId, SubscriberPackageVersion.Dependencies FROM Package2Versions' + getPackage2VersionsFilter() + ') FROM Package2');
         System.debug(request.getEndpoint());
         HttpResponse res = this.http.send(request);
+        System.debug('xxx getPackagesWithDependencies:');
+        System.debug(res.getBody());
         Package2Response toolingResponse = (Package2Response) Json.deserialize(res.getBody(), Package2Response.class);
         return toolingResponse;
     }
@@ -58,6 +60,8 @@ public class ToolingAPIService {
         HttpRequest request = this.getQueryRequest('SELECT Id, (SELECT Id, SubscriberPackageVersionId FROM Package2Versions' + getPackage2VersionsFilter() + ') FROM Package2');
         System.debug(request.getEndpoint());
         HttpResponse res = this.http.send(request);
+        System.debug('xxx getPackageWithLatestReleasedVersions:');
+        System.debug(res.getBody());
         Package2Response toolingResponse = (Package2Response) Json.deserialize(res.getBody(), Package2Response.class);
         return toolingResponse;
     }
@@ -65,6 +69,8 @@ public class ToolingAPIService {
     public Package2VersionResponse listPackage2Versions() {
         HttpRequest request = this.getQueryRequest('SELECT Id, Package2.SubscriberPackageId, Package2.Name, Package2.Id, MajorVersion, MinorVersion, PatchVersion, BuildNumber, SubscriberPackageVersionId FROM Package2Version');
         HttpResponse res = this.http.send(request);
+        System.debug('xxx listPackage2Versions:');
+        System.debug(res.getBody());
         Package2VersionResponse toolingResponse = (Package2VersionResponse) Json.deserialize(res.getBody(), Package2VersionResponse.class);
         return toolingResponse;
     }

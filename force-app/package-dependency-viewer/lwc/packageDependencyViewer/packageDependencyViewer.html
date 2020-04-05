@@ -16,23 +16,25 @@
             </div>
         </div>
 
-
-        <template if:true={showLoadingSpinner}>
-            <lightning-spinner variant="brand" size="large"></lightning-spinner>
-        </template>
-
         <lightning-input type="toggle" label="Show Only Released Package Versions" name="releasedVersionToggle"
                          checked={releasedOnly} onchange={handleToggleChange} slot="actions"
                          message-toggle-active=""
                          message-toggle-inactive="">
         </lightning-input>
 
-        <lightning-tree-grid
-                data={packageDependencies}
-                columns={columns}
-                key-field="name"
-                hide-checkbox-column>
-        </lightning-tree-grid>
+
+        <div style="min-height: 150px" class="slds-is-relative">
+
+            <template if:true={showLoadingSpinner}>
+                <lightning-spinner variant="brand" size="large"></lightning-spinner>
+            </template>
+            <lightning-tree-grid
+                    data={packageDependencies}
+                    columns={columns}
+                    key-field="packageName"
+                    hide-checkbox-column>
+            </lightning-tree-grid>
+        </div>
 
 
     </lightning-card>

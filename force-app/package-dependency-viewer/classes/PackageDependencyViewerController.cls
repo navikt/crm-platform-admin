@@ -1,11 +1,11 @@
 public class PackageDependencyViewerController {
 
     @AuraEnabled(Cacheable=true)
-    public static List<PackageDependencyService.PackageVersionDependency> getPackageDependencies(Boolean releasedOnly) {
-        if (releasedOnly) {
-            return PackageDependencyService.getDependencies(ToolingAPIService.Mode.RELEASED);
+    public static List<PackageDependencyService.SimplePackageVersion> getPackageDependencies(Boolean releasedVersionsOnly) {
+        if(releasedVersionsOnly) {
+            return new PackageDependencyService().getDependenciesForLatestReleasedVersions();
         } else {
-            return PackageDependencyService.getDependencies(ToolingAPIService.Mode.LATEST);
+            return new PackageDependencyService().getDependenciesForLatestVersions();
         }
     }
 
