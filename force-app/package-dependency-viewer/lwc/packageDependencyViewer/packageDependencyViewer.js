@@ -1,20 +1,20 @@
 import { LightningElement, wire } from "lwc";
-import getPackageDependencies from "@salesforce/apex/PackageDependencyViewerController.getPackageDependencies";
+import getPackageVersionsWithDependencies from "@salesforce/apex/PackageDependencyViewerController.getPackageDependencies";
 
 const columns = [
   {
     type: 'text',
-    fieldName: 'name',
+    fieldName: 'packageName',
     label: 'Package'
   },
   {
     type: 'text',
-    fieldName: 'version',
+    fieldName: 'packageVersion',
     label: 'Version'
   },
   {
     type: 'text',
-    fieldName: 'versionId',
+    fieldName: 'subscriberPackageVersionId',
     label: 'Version Id'
   }
 ];
@@ -26,19 +26,20 @@ export default class PackageDependencyViewer extends LightningElement {
   packageDependencies;
   showLoadingSpinner;
 
-  @wire(getPackageDependencies, { releasedOnly: "$releasedOnly" })
+  @wire(getPackageVersionsWithDependencies, { releasedVersionsOnly: "$releasedOnly" })
   wiredObjectPermissions({ error, data }) {
-    let self = this;
     this.showLoadingSpinner = true;
 
     if (data) {
-      let packageVersions = [];
-      data.forEach(function(element) {
-        let flattenedPackageVersion = self.flattenPackageVersion(element);
-        packageVersions.push(flattenedPackageVersion);
+      let extensibleData = JSON.parse(JSON.stringify(data));
+      extensibleData.forEach(function(element) {
+        if(element.dependencies && element.dependencies.length > 0) {
+          element._children = element.dependencies;
+        }
       });
-      this.packageDependencies = packageVersions;
-      console.log(packageVersions)
+
+      this.packageDependencies = extensibleData;
+      console.log(extensibleData)
       this.error = undefined;
       this.showLoadingSpinner = false;
     } else if (error) {
@@ -49,30 +50,11 @@ export default class PackageDependencyViewer extends LightningElement {
     }
   }
 
-  flattenPackageVersion(packageVersion) {
-    let flattenedPackageVersion = {};
-    flattenedPackageVersion.name = packageVersion.packageVersion.package2.name;
-    flattenedPackageVersion.version = packageVersion.packageVersion.majorVersion + "." + packageVersion.packageVersion.minorVersion + "." + packageVersion.packageVersion.patchVersion + "." + packageVersion.packageVersion.buildNumber;
-    flattenedPackageVersion.versionId = packageVersion.packageVersion.subscriberPackageVersionId;
-
-    if(packageVersion.dependentPackageVersions && packageVersion.dependentPackageVersions.length > 0) {
-      let dependentPackageVersions = [];
-      packageVersion.dependentPackageVersions.forEach(function(element) {
-        let depenentPackageVersion = {};
-        depenentPackageVersion.name = element.package2.name;
-        depenentPackageVersion.version = element.majorVersion + "." + element.minorVersion + "." + element.patchVersion + "." + element.buildNumber;
-        depenentPackageVersion.versionId = element.subscriberPackageVersionId;
-        dependentPackageVersions.push(depenentPackageVersion);
-      });
-      flattenedPackageVersion._children = dependentPackageVersions;
-    }
-    return flattenedPackageVersion;
-  }
 
   handleToggleChange(event) {
     this.showLoadingSpinner = true;
     const grid =  this.template.querySelector('lightning-tree-grid');
-    grid.collapseAll();
+    // grid.collapseAll();
     this.releasedOnly = event.target.checked;
   }
 

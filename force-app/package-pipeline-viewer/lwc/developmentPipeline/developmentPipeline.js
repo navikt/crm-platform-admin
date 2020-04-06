@@ -1,35 +1,38 @@
 import { LightningElement, track, wire } from "lwc";
-import refreshOrg from "@salesforce/apex/DevopsDashboardController.refreshOrgs";
-import getOrgs from "@salesforce/apex/DevopsDashboardController.getOrgs";
+import getEnvironmentData from "@salesforce/apex/DevopsDashboardController.getEnvironmentData";
+import refreshEnvironmentData from "@salesforce/apex/DevopsDashboardController.refreshInstalledPackageData";
 import { NavigationMixin } from "lightning/navigation";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 
-
-export default class UnlockedPackageMonitor extends NavigationMixin(LightningElement) {
+export default class DevelopmentPipeline extends NavigationMixin(LightningElement) {
 
   @track orgs;
+  initialLoading = true;
 
   connectedCallback() {
-    this.getOrgs();
+    this.getEnvironmentData();
   }
 
-  getOrgs() {
-    getOrgs().then(result => {
+  getEnvironmentData() {
+    let _self = this;
+    getEnvironmentData().then(result => {
       console.log(result);
       this.orgs = JSON.parse(JSON.stringify(result));
     }).catch(error => {
       console.log(error);
-    });
+    }).finally(function() {
+        _self.initialLoading = false;
+      });
   }
 
-  refreshOrg(event) {
+  handleRefreshData(event) {
     let self = this;
     let orgId = event.detail;
     let orgToUpdate = this.orgs.filter(org => org.Id == orgId)[0];
     orgToUpdate.loading = true;
 
-    refreshOrg({ orgIds: [event.detail] }).then(result => {
-      self.getOrgs();
+    refreshEnvironmentData({ orgIds: [event.detail] }).then(result => {
+      self.getEnvironmentData();
       orgToUpdate.loading = false;
     }).catch(error => {
       orgToUpdate.loading = false;

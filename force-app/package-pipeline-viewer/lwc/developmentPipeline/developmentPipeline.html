@@ -1,6 +1,4 @@
 <template>
-
-
     <lightning-card>
         <div slot="title">
             <div class="slds-media">
@@ -18,10 +16,17 @@
         </div>
 
         <lightning-layout multiple-rows=false horizontal-align="space" class="slds-grid_vertical-stretch slds-border_top">
+
+            <template if:true={initialLoading}>
+                <div style="min-height: 150px" class="slds-is-relative">
+                    <lightning-spinner variant="brand" size="large"></lightning-spinner>
+                </div>
+            </template>
+
             <template if:true={orgs}>
                 <template for:each={orgs} for:item="org">
                     <lightning-layout-item key={org.Name} flexibility="grow" padding="around-small">
-                        <c-environment-card org={org} onrefreshenvironment={refreshOrg} class="slds-p-top-small"> </c-environment-card>
+                        <c-environment-card org={org} onrefreshenvironment={handleRefreshData} class="slds-p-top-small"> </c-environment-card>
                     </lightning-layout-item>
 
                 </template>
@@ -29,5 +34,4 @@
         </lightning-layout>
 
     </lightning-card>
-
 </template>
