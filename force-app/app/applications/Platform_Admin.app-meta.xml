@@ -13,7 +13,6 @@
     <label>Platform Admin</label>
     <navType>Standard</navType>
     <setupExperience>all</setupExperience>
-    <tabs>standard-home</tabs>
     <tabs>Development_Pipeline</tabs>
     <tabs>Package_Dependency_Viewer</tabs>
     <tabs>Object_Permission_Viewer</tabs>

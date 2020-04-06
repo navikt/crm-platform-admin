@@ -1,6 +1,6 @@
 import { LightningElement, track, wire } from "lwc";
-import getEnvironmentData from "@salesforce/apex/DevopsDashboardController.getEnvironmentData";
-import refreshEnvironmentData from "@salesforce/apex/DevopsDashboardController.refreshInstalledPackageData";
+import getEnvironmentData from "@salesforce/apex/DevelopmentPipelineController.getEnvironmentData";
+import refreshEnvironmentData from "@salesforce/apex/DevelopmentPipelineController.refreshInstalledPackageData";
 import { NavigationMixin } from "lightning/navigation";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 

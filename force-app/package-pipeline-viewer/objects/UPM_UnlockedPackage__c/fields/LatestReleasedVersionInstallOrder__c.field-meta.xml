@@ -4,7 +4,7 @@
     <description>The logical installation order of the latest released version of this unlocked package. Populated by Apex and used to be able to query this object in order to know how to install all latest released versions of unlocked packages in the correct dependency order. Used by Github Action CI workflow to ensure the compatibility of released package versions.</description>
     <externalId>false</externalId>
     <inlineHelpText>The logical installation order of the latest released version of this unlocked package. Used by Github Action CI workflow to ensure the compatibility of released package versions.</inlineHelpText>
-    <label>LatestReleasedVersionInstallOrder</label>
+    <label>Latest Released Version Install Order</label>
     <precision>3</precision>
     <required>false</required>
     <scale>0</scale>

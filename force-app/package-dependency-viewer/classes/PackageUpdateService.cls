@@ -13,10 +13,11 @@ public with sharing class PackageUpdateService {
         for (UPM_UnlockedPackage__c upm : upmUnlockedPackages) {
             if (packagesByPackageId.containsKey(upm.SubscriberPackageId__c)) {
                 upm.LatestReleasedVersionInstallOrder__c = installationOrderByPackageId.get(upm.SubscriberPackageId__c);
-                upm.LatestReleasedVersion__c = packagesByPackageId.get(upm.SubscriberPackageId__c).subscriberPackageVersionId;
+                upm.LatestReleasedSubscriberPackageVersionId__c = packagesByPackageId.get(upm.SubscriberPackageId__c).subscriberPackageVersionId;
+                upm.LastQueried__c = Datetime.now();
             } else {
                 upm.LatestReleasedVersionInstallOrder__c = null;
-                upm.LatestReleasedVersion__c = null;
+                upm.LatestReleasedSubscriberPackageVersionId__c = null;
             }
         }
         return upmUnlockedPackages;
