@@ -1,4 +1,4 @@
-public with sharing class DevopsDashboardController {
+public with sharing class DevelopmentPipelineController {
 
     @AuraEnabled
     public static List<UPM_Environment__c> getEnvironmentData() {

@@ -1830,32 +1830,32 @@ public with sharing class ToolingAPI {
         public String value;
     }
 
-//Private helper methods go here
-//
+    //Private helper methods go here
+    //
 
-/*
- * Static helper method for the "happy path" of JSON deserialization.
- * This method should be used for the public methods when the generic JSON deserialize method
- * may be used. Sends a HTTP GET request.
- */
+    /*
+     * Static helper method for the "happy path" of JSON deserialization.
+     * This method should be used for the public methods when the generic JSON deserialize method
+     * may be used. Sends a HTTP GET request.
+     */
     private Object submitRestCallAndDeserialize(String relativeUrl, Type classType) {
         return submitRestCallAndDeserialize(relativeUrl, classType, 'GET');
     }
 
-/*
- * Static helper method for the "happy path" of JSON deserialization.
- * This method should be used for the public methods when the generic JSON deserialize method
- * may be used. Sends a HTTP requested based on method parameter.
- */
+    /*
+     * Static helper method for the "happy path" of JSON deserialization.
+     * This method should be used for the public methods when the generic JSON deserialize method
+     * may be used. Sends a HTTP requested based on method parameter.
+     */
     private Object submitRestCallAndDeserialize(String relativeUrl, Type classType, String method) {
         return submitRestCallAndDeserialize(relativeUrl, classType, method, null);
     }
 
-/*
- * Static helper method for the "happy path" of JSON deserialization.
- * This method should be used for the public methods when the generic JSON deserialize method
- * may be used. Sends a HTTP requested based on method parameter and data.
- */
+    /*
+     * Static helper method for the "happy path" of JSON deserialization.
+     * This method should be used for the public methods when the generic JSON deserialize method
+     * may be used. Sends a HTTP requested based on method parameter and data.
+     */
     private Object submitRestCallAndDeserialize(String relativeUrl, Type classType, String method, Object data) {
         HttpResponse response = submitRestCall(relativeUrl, method, data);
         String responseBody = response.getBody();
@@ -1864,28 +1864,28 @@ public with sharing class ToolingAPI {
         return null;
     }
 
-/*
- * Helper method for submitting the REST HTTP GET request.
- *
- * @throws ToolingAPIAuthorizationException if the remote site is not authorized.
- */
+    /*
+     * Helper method for submitting the REST HTTP GET request.
+     *
+     * @throws ToolingAPIAuthorizationException if the remote site is not authorized.
+     */
     private HttpResponse submitRestCall(String relativeUrl) {
         return submitRestCall(relativeUrl, 'GET');
     }
-/*
- * Helper method for submitting the REST request using the given method.
- *
- * @throws ToolingAPIAuthorizationException if the remote site is not authorized.
- */
+    /*
+     * Helper method for submitting the REST request using the given method.
+     *
+     * @throws ToolingAPIAuthorizationException if the remote site is not authorized.
+     */
     private HttpResponse submitRestCall(String relativeUrl, String method) {
         return submitRestCall(relativeUrl, method, null);
     }
 
-/*
- * Helper method for submitting the REST request using the given method and data.
- *
- * @throws ToolingAPIAuthorizationException if the remote site is not authorized.
- */
+    /*
+     * Helper method for submitting the REST request using the given method and data.
+     *
+     * @throws ToolingAPIAuthorizationException if the remote site is not authorized.
+     */
     private HttpResponse submitRestCall(String relativeUrl, String method, Object data) {
         Http h = new Http();
         HttpRequest queryReq = new HttpRequest();
@@ -1901,7 +1901,7 @@ public with sharing class ToolingAPI {
         queryReq.setMethod(method);
         queryReq.setTimeout(120000);
         if (data != null) {
-// Custom serializer?
+            // Custom serializer?
             if (data instanceof ISerialize) {
                 ISerialize dataToserialize = (ISerialize) data;
                 JSONGenerator jsonGen = JSON.createGenerator(false);
@@ -1910,8 +1910,8 @@ public with sharing class ToolingAPI {
                 jsonGen.writeEndObject();
                 queryReq.setBody(jsonGen.getAsString());
             } else {
-// Standard JSON serializer emits null values,
-//    which are generally not tolerated by Tooling API
+                // Standard JSON serializer emits null values,
+                //    which are generally not tolerated by Tooling API
                 queryReq.setBody(JSON.serialize(data));
             }
         }
@@ -1938,22 +1938,23 @@ public with sharing class ToolingAPI {
                 throw new ToolingAPIException('Unexpected HTTP Status ' + queryRes.getStatusCode());
             }
         }
+        System.debug(queryRes.getBody());
         return queryRes;
     }
 
-/**
- * Helper method for parsing query results
- **/
+    /**
+     * Helper method for parsing query results
+     **/
     private QueryResult parseQueryResult(String jsonStr) {
         QueryResult queryResult = (QueryResult) JSON.deserialize(jsonStr, ToolingAPI.QueryResult.class);
         queryResult.records = getQueryResultRecords(jsonStr);
         return queryResult;
     }
 
-/**
- * Helper method for parsing the QueryResult response and determining
- * which instance of sObject_x to use
- */
+    /**
+     * Helper method for parsing the QueryResult response and determining
+     * which instance of sObject_x to use
+     */
     private List<SObject_x> getQueryResultRecords(String jsonStr) {
 
         String recordType = getRecordType(jsonStr);
@@ -1972,9 +1973,9 @@ public with sharing class ToolingAPI {
         return null;
     }
 
-/**
- * Helper method for parsing type attribute from query result records in JSON response
- */
+    /**
+     * Helper method for parsing type attribute from query result records in JSON response
+     */
     private String getRecordType(String jsonStr) {
         JSONParser parser = JSON.createParser(jsonStr);
 
@@ -1984,7 +1985,7 @@ public with sharing class ToolingAPI {
                     if (parser.getText() == 'attributes') {
                         while (parser.nextToken() != null) {
                             if (parser.getText() == 'type') {
-//Value of type attribute
+                                //Value of type attribute
                                 parser.nextToken();
                                 return parser.getText();
                             }

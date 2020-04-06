@@ -12,37 +12,17 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Required</behavior>
-                <field>SubscriberPackageId__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>GitHubRepositoryPath__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>LatestVersion__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>LatestReleasedSubscriberPackageVersionId__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>LatestReleasedVersionInstallOrder__c</field>
+                <field>NamedCredential__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>OwnerId</field>
+                <field>LastQueried__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
-                <field>ColorCode__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Team__c</field>
+                <behavior>Required</behavior>
+                <field>SortOrder__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
@@ -76,15 +56,28 @@
         <layoutColumns/>
         <style>CustomLinks</style>
     </layoutSections>
+    <platformActionList>
+        <actionListContext>Record</actionListContext>
+        <platformActionListItems>
+            <actionName>Edit</actionName>
+            <actionType>StandardButton</actionType>
+            <sortOrder>0</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Delete</actionName>
+            <actionType>StandardButton</actionType>
+            <sortOrder>1</sortOrder>
+        </platformActionListItems>
+    </platformActionList>
     <relatedLists>
         <excludeButtons>MassChangeOwner</excludeButtons>
         <excludeButtons>New</excludeButtons>
         <fields>NAME</fields>
-        <fields>UPM_Environment__c.NAME</fields>
         <fields>UPM_Version__c</fields>
         <fields>UPM_IsBeta__c</fields>
-        <relatedList>UPM_InstalledPackage__c.UnlockedPackage__c</relatedList>
-        <sortField>UPM_Environment__c.NAME</sortField>
+        <fields>UPM_UnlockedPackage__c.Team__c</fields>
+        <relatedList>UPM_InstalledPackage__c.UPM_Environment__c</relatedList>
+        <sortField>UPM_UnlockedPackage__c.Team__c</sortField>
         <sortOrder>Desc</sortOrder>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
@@ -93,7 +86,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h1X000000ortn</masterLabel>
+        <masterLabel>00h1X000000ortl</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>
