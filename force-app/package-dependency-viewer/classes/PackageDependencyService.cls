@@ -3,8 +3,6 @@ public class PackageDependencyService {
     private final String DEVHUB_NAMED_CREDENTIAL = 'NAV_Salesforce_Production';
     private ToolingAPI tooling;
     private Boolean filterByReleasedOnly = false;
-
-
     private Map<Id, List<Id>> subscriberPackageVersionIdDependencyMap;
     private List<SimplePackageVersion> allSimplePackageVersions;
     private List<SimplePackageVersion> simplePackageVersionsWithDependencies;
@@ -22,6 +20,7 @@ public class PackageDependencyService {
         buildDependencyMap();
         buildSimplePackageVersions();
         buildSimplePackageVersionListWithDependencies();
+        orderByRequiredInstallationSequence();
         return this.simplePackageVersionsWithDependencies;
     }
 
@@ -62,7 +61,6 @@ public class PackageDependencyService {
         this.subscriberPackageVersionIdDependencyMap = dependenciesBySubscriberPackageVersionId;
     }
 
-
     private List<ToolingAPI.Package2> getLatestPackageVersionPerPackageWithDependencies() {
         ToolingAPI.QueryResult result = tooling.query('SELECT Id, Name, (SELECT Id, SubscriberPackageVersionId, SubscriberPackageVersion.Dependencies FROM Package2Versions' + getVersionFilter() + ') FROM Package2');
         return (List<ToolingAPI.Package2>) result.records;
@@ -93,6 +91,47 @@ public class PackageDependencyService {
         ToolingAPI.QueryResult result = tooling.query('SELECT Id, Package2.SubscriberPackageId, Package2.Name, Package2.Id, MajorVersion, MinorVersion, PatchVersion, BuildNumber, SubscriberPackageVersionId FROM Package2Version');
         return (List<ToolingAPI.Package2Version>) result.records;
     }
+
+    public void orderByRequiredInstallationSequence() {
+        Map<Id, SimplePackageVersion> spvBySubscriberPackageVersionId = getPackageVersionsBySubscriberPackageId();
+        this.simplePackageVersionsWithDependencies = findRequiredOrder(spvBySubscriberPackageVersionId);
+    }
+
+    private Map<Id, SimplePackageVersion> getPackageVersionsBySubscriberPackageId() {
+        Map<Id, SimplePackageVersion> spvBySubscriberPackageVersionId = new Map<Id, SimplePackageVersion>();
+        for (SimplePackageVersion spv : this.simplePackageVersionsWithDependencies) {
+            spvBySubscriberPackageVersionId.put(spv.subscriberPackageId, spv);
+        }
+        return spvBySubscriberPackageVersionId;
+    }
+
+    private List<SimplePackageVersion> findRequiredOrder(Map<Id, SimplePackageVersion> spvBySubscriberPackageId) {
+        Map<Id, SimplePackageVersion> packageVersionsByRequiredOrderOfInstallation = new Map<Id, SimplePackageVersion>();
+        while (!spvBySubscriberPackageId.keySet().isEmpty()) {
+            for (Id subscriberPackageId : spvBySubscriberPackageId.keySet()) {
+                SimplePackageVersion pv = spvBySubscriberPackageId.get(subscriberPackageId);
+                // Package Versions that have no dependencies
+                if (pv.dependencies == null) {
+                    packageVersionsByRequiredOrderOfInstallation.put(subscriberPackageId, pv);
+                    spvBySubscriberPackageId.remove(subscriberPackageId);
+                } else {
+                    // Add only if all dependencies are already added
+                    Boolean allParentsAdded = true;
+                    for (SimplePackageVersion dependencySpv : pv.dependencies) {
+                        if (!packageVersionsByRequiredOrderOfInstallation.containsKey(dependencySpv.subscriberPackageId)) {
+                            allParentsAdded = false;
+                        }
+                    }
+                    if (allParentsAdded) {
+                        packageVersionsByRequiredOrderOfInstallation.put(subscriberPackageId, pv);
+                        spvBySubscriberPackageId.remove(subscriberPackageId);
+                    }
+                }
+            }
+        }
+        return packageVersionsByRequiredOrderOfInstallation.values();
+    }
+
 
     public class SimplePackageVersion {
         @AuraEnabled public String packageName;

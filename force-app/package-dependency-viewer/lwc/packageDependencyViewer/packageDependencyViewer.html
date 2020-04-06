@@ -19,7 +19,8 @@
         <lightning-input type="toggle" label="Show Only Released Package Versions" name="releasedVersionToggle"
                          checked={releasedOnly} onchange={handleToggleChange} slot="actions"
                          message-toggle-active=""
-                         message-toggle-inactive="">
+                         message-toggle-inactive=""
+                         disabled={showLoadingSpinner}>
         </lightning-input>
 
 

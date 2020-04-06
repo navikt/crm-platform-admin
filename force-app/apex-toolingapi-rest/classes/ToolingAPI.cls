@@ -55,8 +55,10 @@ public with sharing class ToolingAPI {
         Package2,
         Package2Version,
         StaticResource,
+        SubscriberPackage,
         SubscriberPackageVersion,
         TraceFlag,
+        InstalledSubscriberPackage,
         User,
         UserPreference,
         Workflow,
@@ -1263,7 +1265,25 @@ public with sharing class ToolingAPI {
         }
     }
 
+    public class SubscriberPackage extends SObject_x {
+        public String description;
+        public String name;
+        public String nameSpacePrefix;
+        public SubscriberPackage() {
+            super(SObjectType.SubscriberPackage);
+        }
+    }
+
     public class SubscriberPackageVersion extends SObject_x {
+        public Integer buildNumber;
+        public String description;
+        public Boolean IsDeprecated;
+        public Boolean IsPasswordProtected;
+        public Boolean IsBeta;
+        public Integer majorVersion;
+        public Integer minorVersion;
+        public String name;
+        public Integer patchVersion;
         public SubscriberPackageDependencies dependencies;
         public SubscriberPackageVersion() {
             super(SObjectType.SubscriberPackageVersion);
@@ -1527,6 +1547,17 @@ public with sharing class ToolingAPI {
         public HeapAddress[] extent;
         public Integer totalSize;
         public String typeName;
+    }
+
+    public class InstalledSubscriberPackage extends SObject_x {
+        public String minPackageVersionId;
+        public String subscriberPackageId;
+        public String subscriberPackageVersionId;
+        public SubscriberPackage subscriberPackage;
+        public SubscriberPackageVersion subscriberPackageVersion;
+        public InstalledSubscriberPackage() {
+            super(SObjectType.InstalledSubscriberPackage);
+        }
     }
 
     public class UpsertResult {
@@ -1964,4 +1995,5 @@ public with sharing class ToolingAPI {
         }
         return null;
     }
+
 }
