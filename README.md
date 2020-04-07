@@ -1,4 +1,4 @@
-# crm-platform-administration
+# crm-platform-admin
 This package contains administration, audit and monitoring functionality in order to monitor and support development and
 deployment on the Salesforce platform. 
 
