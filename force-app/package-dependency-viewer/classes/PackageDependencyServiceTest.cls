@@ -23,19 +23,19 @@ private class PackageDependencyServiceTest {
         });
         Test.setMock(HttpCalloutMock.class, responses);
 
-        List<UPM_UnlockedPackage__c> packages = new List<UPM_UnlockedPackage__c>();
+        List<UnlockedPackage__c> packages = new List<UnlockedPackage__c>();
 
-        UPM_UnlockedPackage__c package1 = new UPM_UnlockedPackage__c();
+        UnlockedPackage__c package1 = new UnlockedPackage__c();
         package1.Name = 'test-package-1';
         package1.SubscriberPackageId__c = '0332o000000TyICAA0';
         packages.add(package1);
 
-        UPM_UnlockedPackage__c package2 = new UPM_UnlockedPackage__c();
+        UnlockedPackage__c package2 = new UnlockedPackage__c();
         package2.Name = 'test-package-2';
         package2.SubscriberPackageId__c = '0332o000000TyIHAA0';
         packages.add(package2);
 
-        UPM_UnlockedPackage__c package3 = new UPM_UnlockedPackage__c();
+        UnlockedPackage__c package3 = new UnlockedPackage__c();
         package3.Name = 'test-package-3';
         package3.SubscriberPackageId__c = '0332o000000XXXXXXX'; // Doesn't exist in mock response
         packages.add(package3);
@@ -48,7 +48,7 @@ private class PackageDependencyServiceTest {
 
         packages = [
                 SELECT Id, LatestReleasedSubscriberPackageVersionId__c, LatestReleasedVersionInstallOrder__c
-                FROM UPM_UnlockedPackage__c
+                FROM UnlockedPackage__c
                 ORDER BY Name ASC
         ];
 

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AuthProvider xmlns="http://soap.sforce.com/2006/04/metadata">
+    <authorizeUrl>https://login.salesforce.com/services/oauth2/authorize</authorizeUrl>
+    <consumerKey>Placeholder-value</consumerKey>
+    <consumerSecret></consumerSecret>
+    <friendlyName>Salesforce-Production</friendlyName>
+    <includeOrgIdInIdentifier>true</includeOrgIdInIdentifier>
+    <providerType>Salesforce</providerType>
+    <sendAccessTokenInHeader>false</sendAccessTokenInHeader>
+    <sendClientCredentialsInHeader>false</sendClientCredentialsInHeader>
+    <sendSecretInApis>true</sendSecretInApis>
+    <tokenUrl>https://login.salesforce.com/services/oauth2/token</tokenUrl>
+</AuthProvider>

@@ -3,14 +3,14 @@ public with sharing class PackageUpdateService {
     public static void updateUnlockedPackageLatestReleasedFields() {
         List<PackageDependencyService.SimplePackageVersion> packageVersions = new PackageDependencyService().getDependenciesForLatestReleasedVersions();
         Map<Id, PackageDependencyService.SimplePackageVersion> packageVersionsByPackageId = getPackageVersionByPackageId(packageVersions);
-        List<UPM_UnlockedPackage__c> packagesToUpdate = initializePackagesToUpdate(packageVersionsByPackageId);
+        List<UnlockedPackage__c> packagesToUpdate = initializePackagesToUpdate(packageVersionsByPackageId);
         update packagesToUpdate;
     }
 
-    private static List<UPM_UnlockedPackage__c> initializePackagesToUpdate(Map<Id, PackageDependencyService.SimplePackageVersion> packagesByPackageId) {
+    private static List<UnlockedPackage__c> initializePackagesToUpdate(Map<Id, PackageDependencyService.SimplePackageVersion> packagesByPackageId) {
         Map<Id, Integer> installationOrderByPackageId = getInstallationOrderMap(packagesByPackageId.values());
-        List<UPM_UnlockedPackage__c> upmUnlockedPackages = [SELECT Id, SubscriberPackageId__c FROM UPM_UnlockedPackage__c];
-        for (UPM_UnlockedPackage__c upm : upmUnlockedPackages) {
+        List<UnlockedPackage__c> upmUnlockedPackages = [SELECT Id, SubscriberPackageId__c FROM UnlockedPackage__c];
+        for (UnlockedPackage__c upm : upmUnlockedPackages) {
             if (packagesByPackageId.containsKey(upm.SubscriberPackageId__c)) {
                 upm.LatestReleasedVersionInstallOrder__c = installationOrderByPackageId.get(upm.SubscriberPackageId__c);
                 upm.LatestReleasedSubscriberPackageVersionId__c = packagesByPackageId.get(upm.SubscriberPackageId__c).subscriberPackageVersionId;

@@ -42,7 +42,7 @@
         <type>Region</type>
     </flexiPageRegions>
     <masterLabel>Unlocked Package Record Page</masterLabel>
-    <sobjectType>UPM_UnlockedPackage__c</sobjectType>
+    <sobjectType>UnlockedPackage__c</sobjectType>
     <template>
         <name>flexipage:recordHomeSingleColTemplateDesktop</name>
     </template>
