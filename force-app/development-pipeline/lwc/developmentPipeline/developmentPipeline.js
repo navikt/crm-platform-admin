@@ -7,7 +7,7 @@ import { ShowToastEvent } from "lightning/platformShowToastEvent";
 export default class DevelopmentPipeline extends NavigationMixin(LightningElement) {
 
   @track orgs;
-  initialLoading = true;
+  @track initialLoading = true;
 
   connectedCallback() {
     this.getEnvironmentData();
@@ -16,7 +16,6 @@ export default class DevelopmentPipeline extends NavigationMixin(LightningElemen
   getEnvironmentData() {
     let _self = this;
     getEnvironmentData().then(result => {
-      console.log(result);
       this.orgs = JSON.parse(JSON.stringify(result));
     }).catch(error => {
       console.log(error);
@@ -55,6 +54,10 @@ export default class DevelopmentPipeline extends NavigationMixin(LightningElemen
         actionName: "view"
       }
     });
+  }
+
+  get showNoEnvironmentIllustration() {
+    return (!this.initialLoading && (!Array.isArray(this.orgs) || this.orgs.length === 0));
   }
 
 }

@@ -10,13 +10,6 @@ export default class EnvironmentCard extends NavigationMixin(LightningElement) {
     }));
   }
 
-  handleDeploy(evt) {
-    const event = new CustomEvent('deployclicked', {
-      detail: evt.detail
-    });
-    this.dispatchEvent(event);
-  }
-
   navigateToRecordViewPage() {
     // View a custom object record.
     this[NavigationMixin.Navigate]({
