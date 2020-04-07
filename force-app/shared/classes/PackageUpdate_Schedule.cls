@@ -16,7 +16,7 @@ public class PackageUpdate_Schedule implements Schedulable {
     // Initiate @future callout for all Environment records separately,
     // because the Tooling API query is slow and may time out
     private static void updateInstalledPackagesForAllEnvironments() {
-        for (UPM_Environment__c upm : [SELECT Id FROM UPM_Environment__c]) {
+        for (Environment__c upm : [SELECT Id FROM Environment__c]) {
             updateInstalledPackagesforEnvironment(upm.Id);
         }
     }

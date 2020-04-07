@@ -16,8 +16,7 @@
     <tabs>Development_Pipeline</tabs>
     <tabs>Package_Dependency_Viewer</tabs>
     <tabs>Object_Permission_Viewer</tabs>
-    <tabs>UPM_Environment__c</tabs>
-    <tabs>UPM_UnlockedPackage__c</tabs>
+    <tabs>Environment__c</tabs>
+    <tabs>UnlockedPackage__c</tabs>
     <uiType>Lightning</uiType>
-    <utilityBar>Administration_UtilityBar</utilityBar>
 </CustomApplication>

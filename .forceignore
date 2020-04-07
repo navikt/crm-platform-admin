@@ -14,9 +14,9 @@ package.xml
 **profiles
 **profile
 Profile
-**namedCredential
+//**namedCredential
 NamedCredential
 FlexiPage
 AuthProvider
-**flexipage
-**authprovider
+//**flexipage
+//**authprovider

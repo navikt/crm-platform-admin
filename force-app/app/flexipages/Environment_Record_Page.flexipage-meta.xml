@@ -42,7 +42,7 @@
         <type>Region</type>
     </flexiPageRegions>
     <masterLabel>Environment Record Page</masterLabel>
-    <sobjectType>UPM_Environment__c</sobjectType>
+    <sobjectType>Environment__c</sobjectType>
     <template>
         <name>flexipage:recordHomeSingleColTemplateDesktop</name>
     </template>
