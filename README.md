@@ -25,7 +25,7 @@ with the current package versions installed in the given environment. The query 
 manually from the associated Lightning Web Component.
 
 
-## Package Dependency Viewer
+### Package Dependency Viewer
 This component displays Unlocked Package versions with their declared dependencies. The Lightning Web Component allows
 a developer to understand the package dependency tree for all package associated with the Dev Hub environment. 
 The associated backend logic is also used to populate the fields `LatestReleasedVersionInstallOrder__c` and
@@ -34,7 +34,7 @@ The associated backend logic is also used to populate the fields `LatestReleased
  workflows for testing and deployment.
 
 
-## Object Permission Viewer
+### Object Permission Viewer
 This component queries and visualizes object permissions granted through Permission Sets in the current Salesforce 
 environment. For sensitive objects where "View All" and/or "Modify All" permissions should not be granted through
  permisison sets, these restrictions can be defined through the Custom Metadata Object 
