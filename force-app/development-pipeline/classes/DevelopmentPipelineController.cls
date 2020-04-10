@@ -19,7 +19,8 @@ public with sharing class DevelopmentPipelineController {
                                 UnlockedPackage__r.ColorCode__c,
                                 UnlockedPackage__r.Team__c
                         FROM InstalledPackages__r
-                        ORDER BY UnlockedPackage__r.Team__c ASC
+                        ORDER BY UnlockedPackage__r.Team__c ASC,
+                                UnlockedPackage__r.LatestReleasedVersionInstallOrder__c ASC
                 )
                 FROM Environment__c
                 ORDER BY SortOrder__c ASC
