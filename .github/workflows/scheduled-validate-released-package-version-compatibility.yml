@@ -46,7 +46,7 @@ jobs:
         id: install-released-package-versions
         shell: bash
         run: |
-          error=$(bash scripts/install_all_released_package_versions.sh ${{secrets.PACKAGE_KEY}})
+          error=$(bash scripts/shell/install_all_released_package_versions.sh ${{secrets.PACKAGE_KEY}})
           echo "::set-output name=error::$error"
           if [[ -n $error ]]; then echo $error; exit 1; fi
 
