@@ -26,8 +26,17 @@
     "lightningExperienceSettings": {
       "enableS1DesktopEnabled": true
     },
+    "omniChannelSettings": {
+      "enableOmniChannel": true
+    },
+    "liveAgentSettings": {
+      "enableLiveAgent": true
+    },
     "languageSettings": {
       "enableTranslationWorkbench": true
+    },
+    "accountSettings": {
+      "enableAccountTeams": true
     }
   }
 }
