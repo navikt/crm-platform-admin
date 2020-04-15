@@ -56,7 +56,7 @@ jobs:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         uses: pullreminders/slack-action@master
         with:
-          args: '{\"channel\":\"GNDCYR1PS\",\"text\":\" @channel Released package version compatibility check failed:\n *Error:*  ${{steps.install-released-package-versions.outputs.error}}  \"}'
+          args: '{\"channel\":\"C012KBWG4SC\",\"text\":\" @channel Released package version compatibility check failed:\n *Error:*  ${{steps.install-released-package-versions.outputs.error}}  \"}'
 
       # Debug
       - name: Debug

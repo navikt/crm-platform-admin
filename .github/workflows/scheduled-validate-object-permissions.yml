@@ -57,7 +57,7 @@ jobs:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         uses: pullreminders/slack-action@master
         with:
-          args: '{\"channel\":\"GNDCYR1PS\",\"text\":\" @channel *Permission Set Object Permission Check Failed (PRODUCTION)*\n ${{steps.test-run-production.outputs.errorMessage}} \"}'
+          args: '{\"channel\":\"C012KBWG4SC\",\"text\":\" @channel *Permission Set Object Permission Check Failed (PRODUCTION)*\n ${{steps.test-run-production.outputs.errorMessage}} \"}'
 
       # Run test object permission test in preprod
       - name: Run Object Permission Test (Preprod)
@@ -74,4 +74,4 @@ jobs:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         uses: pullreminders/slack-action@master
         with:
-          args: '{\"channel\":\"GNDCYR1PS\",\"text\":\" @channel *Permission Set Object Permission Check Failed (PREPROD)*\n ${{steps.test-run-preprod.outputs.errorMessage}} \"}'
+          args: '{\"channel\":\"C012KBWG4SC\",\"text\":\" @channel *Permission Set Object Permission Check Failed (PREPROD)*\n ${{steps.test-run-preprod.outputs.errorMessage}} \"}'
