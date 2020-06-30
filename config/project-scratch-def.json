@@ -37,6 +37,9 @@
     },
     "accountSettings": {
       "enableAccountTeams": true
+    },
+    "nameSettings": {
+      "enableMiddleName": true
     }
   }
 }
