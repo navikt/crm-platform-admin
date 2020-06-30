@@ -4,6 +4,7 @@ public with sharing class AccessApplicationModel {
 	@AuraEnabled public String description;
 	@AuraEnabled public Boolean isAssigned;
 	@AuraEnabled public Boolean isGroup;
+	@AuraEnabled public Boolean awaitingApproval;
 
 	@AuraEnabled public List<AccessApplicationModel> permissions;
 
