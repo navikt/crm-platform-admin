@@ -56,3 +56,13 @@ local-scripts/
 .prettierrc
 
 scripts/shell/InstalledPackageVersionQuery
+
+
+
+# ssdx
+
+**/.ssdx/
+run.command
+run.cmd
+install.cmd
+**/dummy-data/*.out/*
