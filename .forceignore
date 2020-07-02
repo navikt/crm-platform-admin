@@ -20,3 +20,8 @@ FlexiPage
 AuthProvider
 //**flexipage
 //**authprovider
+
+# bugs (cannot be pushed)
+# ----------------------------------------------------------------------------------------
+**/AppSwitcher.appMenu*
+**/navigationMenus/*
