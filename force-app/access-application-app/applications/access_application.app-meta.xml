@@ -11,6 +11,7 @@
     <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
     <label>Tilgangssøkeren</label>
     <navType>Standard</navType>
+    <tabs>S_k_om_tilgang</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>Tilgangss_keren_UtilityBar</utilityBar>
 </CustomApplication>

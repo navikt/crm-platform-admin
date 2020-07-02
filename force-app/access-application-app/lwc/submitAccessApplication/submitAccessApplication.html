@@ -1,0 +1,34 @@
+<template>
+
+    <lightning-card>
+        <div slot="title">
+            <div class="slds-media">
+                <div class="slds-media__figure">
+                    <lightning-icon icon-name="standard:product_required" size="large"></lightning-icon>
+                </div>
+                <div class="slds-media__body">
+                    <h3>Søk om ny tilgang</h3>
+                    <p class="slds-page-header__name-meta">
+                        Velg den tilgangen du trenger, og send inn søknad om å få den.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div style="min-height: 150px" class="slds-is-relative">
+            <lightning-tree-grid columns={columns} data={data} key-field="name"></lightning-tree-grid>
+        </div>
+
+        <!-- LOADING AND INFO/ERROR TEXT -->
+        <!-- ________________________________________________________________________ -->
+        <div if:true={loading} class="slds-scrollable">
+            <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+        </div>
+        <div if:true={error} class="slds-m-top_large">
+            <div class="slds-text-heading_large slds-align_absolute-center">Feil
+            </div>
+            <div class="slds-text-color_destructive slds-align_absolute-center slds-m-around_x-large">{errorMsg}</div>
+        </div>
+
+    </lightning-card>
+</template>
