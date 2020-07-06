@@ -8,6 +8,15 @@ export const COLUMNS = [
         type: 'text',
         fieldName: 'description',
         label: 'Description',
-        initialWidth: 1000,
+    },
+    {
+        type: 'boolean',
+        fieldName: 'isAssigned',
+        label: 'Already Assigned',
+    },
+    {
+        type: 'boolean',
+        fieldName: 'awaitingApproval',
+        label: 'Awaiting Approval',
     },
 ];

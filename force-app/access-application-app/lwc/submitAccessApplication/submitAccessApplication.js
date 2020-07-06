@@ -7,10 +7,7 @@ import {
 
 export default class SubmitAccessApplication extends LightningElement {
 
-    @track availablePermissions;
-    @track permissionsInReview;
-    @track assignedPermissions;
-
+    @track data;
     @track columns = COLUMNS;
     deWireResult;
 
@@ -25,9 +22,17 @@ export default class SubmitAccessApplication extends LightningElement {
         console.log('result.error: ' + result.error);
         if (result.data) {
 
-            this.availablePermissions = this.dataFromResults(result.data.availablePermissions);
-            this.permissionsInReview = this.dataFromResults(result.data.permissionsInReview);
-            this.assignedPermissions = this.dataFromResults(result.data.assignedPermissions);
+
+            let extensibleData = JSON.parse(JSON.stringify(result.data));
+            extensibleData.forEach(function (element) {
+                if (element.children && element.children.length > 0) {
+                    element._children = element.children;
+                }
+            });
+
+            console.log(extensibleData)
+
+            this.data = extensibleData;
             this.loading = false;
 
 
@@ -37,16 +42,6 @@ export default class SubmitAccessApplication extends LightningElement {
             this.loading = false;
             this.setError(result.error);
         }
-    }
-
-    dataFromResults(data) {
-        let extensibleData = JSON.parse(JSON.stringify(data));
-        extensibleData.forEach(function (element) {
-            if (element.children && element.children.length > 0) {
-                element._children = element.children;
-            }
-        });
-        return extensibleData;
     }
 
     refreshData() {
