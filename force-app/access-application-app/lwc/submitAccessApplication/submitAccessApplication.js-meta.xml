@@ -5,6 +5,6 @@
     <masterLabel>Submit Access Application</masterLabel>
     <description>A component to submit an application to gain access to more objects</description>
     <targets>
-        <target>lightning__AppPage</target>
+        <target>lightning__Tab</target>
     </targets>
 </LightningComponentBundle>

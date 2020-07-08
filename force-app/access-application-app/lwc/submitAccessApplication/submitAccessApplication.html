@@ -4,31 +4,43 @@
         <div slot="title">
             <div class="slds-media">
                 <div class="slds-media__figure">
-                    <lightning-icon icon-name="standard:product_required" size="large"></lightning-icon>
+                    <lightning-icon icon-name="standard:portal" size="large"></lightning-icon>
                 </div>
                 <div class="slds-media__body">
-                    <h3>Søk om ny tilgang</h3>
+                    <h3>Søk om tilgang</h3>
                     <p class="slds-page-header__name-meta">
-                        Velg den tilgangen du trenger, og send inn søknad om å få den.
+                        Her ser du tilgjengelige tilganger du kan søke for å få. Finner du ikke en tilgang, har du
+                        kanskje allerede fått den, eller så er søknaden fortsatt under vurdering.
                     </p>
                 </div>
             </div>
         </div>
 
-        <div style="min-height: 150px" class="slds-is-relative">
+        <lightning-input type="toggle" label="Show Only Released Package Versions" name="releasedVersionToggle"
+            checked={releasedOnly} onchange={handleToggleChange} slot="actions" message-toggle-active=""
+            message-toggle-inactive="" disabled={showLoadingSpinner}>
+        </lightning-input>
+
+
+        <div style="min-height: 100px" class="slds-is-relative">
+            <template if:true={loading} class="slds-scrollable">
+                <lightning-spinner variant="brand" alternative-text="Loading" size="large"></lightning-spinner>
+            </template>
+
             <lightning-tree-grid columns={columns} data={data} key-field="name"></lightning-tree-grid>
+
+            <div if:true={error} class="slds-var-m-top_large">
+                <div class="slds-text-heading_large slds-align_absolute-center">Feil
+                </div>
+                <div class="slds-text-color_destructive slds-align_absolute-center slds-var-m-around_x-large">{errorMsg}
+                </div>
+            </div>
+
         </div>
 
-        <!-- LOADING AND INFO/ERROR TEXT -->
-        <!-- ________________________________________________________________________ -->
-        <div if:true={loading} class="slds-scrollable">
-            <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
-        </div>
-        <div if:true={error} class="slds-m-top_large">
-            <div class="slds-text-heading_large slds-align_absolute-center">Feil
-            </div>
-            <div class="slds-text-color_destructive slds-align_absolute-center slds-m-around_x-large">{errorMsg}</div>
-        </div>
 
     </lightning-card>
+
+
+
 </template>

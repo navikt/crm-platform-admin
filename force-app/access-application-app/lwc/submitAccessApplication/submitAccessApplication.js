@@ -18,30 +18,29 @@ export default class SubmitAccessApplication extends LightningElement {
     @wire(getPermissions)
     deWire(result) {
         this.deWireResult = result;
-        console.log('result.data: ' + result.data);
-        console.log('result.error: ' + result.error);
         if (result.data) {
-
-
-            let extensibleData = JSON.parse(JSON.stringify(result.data));
-            extensibleData.forEach(function (element) {
-                if (element.children && element.children.length > 0) {
-                    element._children = element.children;
-                }
-            });
-
-            console.log(extensibleData)
-
-            this.data = extensibleData;
+            console.log('success');
+            this.data = this.getDataFromResults(result.data);
+            console.log('this.data: ' + this.data);
             this.loading = false;
-
-
         } else if (result.error) {
-
+            console.log('error');
             this.error = true;
             this.loading = false;
             this.setError(result.error);
         }
+    }
+
+    getDataFromResults(data) {
+
+        let extensibleData = JSON.parse(JSON.stringify(data));
+        extensibleData.forEach(function (element) {
+            if (element.children && element.children.length > 0) {
+                element._children = element.children;
+            }
+        });
+
+        return extensibleData;
     }
 
     refreshData() {
@@ -51,7 +50,6 @@ export default class SubmitAccessApplication extends LightningElement {
             this.loading = false;
         });
     }
-
 
     setError(error) {
         if (error.body && error.body.exceptionType && error.body.message) {
