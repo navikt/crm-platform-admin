@@ -21,16 +21,20 @@
         <lightning-button-group slot="actions">
 
             <!-- CHANGE USER -->
-            <lightning-button if:true={canChangeUser} label="Change User" title="Change User" onclick={handleClick}
-                variant="neutral">
+            <lightning-button icon-name="utility:user" if:true={canChangeUser} label="Change User" title="Change User"
+                name="changeUser" onclick={handleClick} variant="neutral">
             </lightning-button>
 
             <!-- CANCEL -->
-            <lightning-button label="Cancel" title="Cancel" onclick={handleClick} variant="neutral">
+            <lightning-button icon-name="utility:close" label="Cancel" title="Cancel" name="cancel"
+                onclick={handleClick} variant="neutral" disabled>
+                <!-- disable={isDisabled} -->
             </lightning-button>
 
             <!-- APPLY -->
-            <lightning-button label="Apply" title="Apply" onclick={handleClick} variant="brand">
+            <lightning-button icon-name="utility:check" label="Apply" title="Apply" name="apply" onclick={handleClick}
+                variant="brand">
+                <!-- disable={isDisabled} -->
             </lightning-button>
         </lightning-button-group>
 
@@ -43,7 +47,8 @@
             </template>
 
             <!-- DATA -->
-            <lightning-tree-grid columns={columns} data={data} key-field="name" onrowaction={handleRowAction}>
+            <lightning-tree-grid columns={columns} data={data} key-field="name" onrowaction={handleRowAction}
+                selected-rows={currentlySelectedRows}>
             </lightning-tree-grid>
 
             <!-- ERROR MESSAGE -->

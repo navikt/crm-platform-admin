@@ -1,5 +1,6 @@
 public with sharing class AccessApplicationModel {
 
+	@AuraEnabled public Id id;
 	@AuraEnabled public String name;
 	@AuraEnabled public String description;
 	@AuraEnabled public String applicationReason;
@@ -9,7 +10,8 @@ public with sharing class AccessApplicationModel {
 
 	@AuraEnabled public List<AccessApplicationModel> children;
 
-	public AccessApplicationModel( String name, String description, Boolean isApplied, Boolean isAssigned, Boolean isGroup, List<AccessApplicationModel> permissions ) {
+	public AccessApplicationModel( Id id, String name, String description, Boolean isApplied, Boolean isAssigned, Boolean isGroup, List<AccessApplicationModel> permissions ) {
+		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.isApplied = isApplied;

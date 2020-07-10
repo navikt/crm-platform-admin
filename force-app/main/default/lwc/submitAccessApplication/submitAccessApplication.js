@@ -9,6 +9,7 @@ export default class SubmitAccessApplication extends LightningElement {
 
     @track data;
     @track columns = COLUMNS;
+    @track currentlySelectedRows = [''];
     deWireResult;
 
     @track error;
@@ -44,6 +45,31 @@ export default class SubmitAccessApplication extends LightningElement {
         });
 
         return extensibleData;
+    }
+
+    handleClick(event) {
+        switch (event.target.name) {
+            case "changeUser":
+                break;
+            case "cancel":
+                break;
+            case "apply":
+                alert(this.currentlySelectedRows);
+                break;
+            default:
+                break;
+        }
+    }
+
+    changeUser() {
+
+    }
+
+    cancel() {
+
+    }
+
+    apply() {
     }
 
     refreshData() {
