@@ -1,6 +1,8 @@
 <template>
 
     <lightning-card>
+
+        <!-- TITLE -->
         <div slot="title">
             <div class="slds-media">
                 <div class="slds-media__figure">
@@ -16,26 +18,41 @@
             </div>
         </div>
 
-        <lightning-input type="toggle" label="Show Only Released Package Versions" name="releasedVersionToggle"
-            checked={releasedOnly} onchange={handleToggleChange} slot="actions" message-toggle-active=""
-            message-toggle-inactive="" disabled={showLoadingSpinner}>
-        </lightning-input>
+        <lightning-button-group slot="actions">
+
+            <!-- CHANGE USER -->
+            <lightning-button if:true={canChangeUser} label="Change User" title="Change User" onclick={handleClick}
+                variant="neutral">
+            </lightning-button>
+
+            <!-- CANCEL -->
+            <lightning-button label="Cancel" title="Cancel" onclick={handleClick} variant="neutral">
+            </lightning-button>
+
+            <!-- APPLY -->
+            <lightning-button label="Apply" title="Apply" onclick={handleClick} variant="brand">
+            </lightning-button>
+        </lightning-button-group>
 
 
         <div style="min-height: 100px" class="slds-is-relative">
+
+            <!-- LOADING SPINNER -->
             <template if:true={loading} class="slds-scrollable">
                 <lightning-spinner variant="brand" alternative-text="Loading" size="large"></lightning-spinner>
             </template>
 
-            <lightning-tree-grid columns={columns} data={data} key-field="name"></lightning-tree-grid>
+            <!-- DATA -->
+            <lightning-tree-grid columns={columns} data={data} key-field="name" onrowaction={handleRowAction}>
+            </lightning-tree-grid>
 
+            <!-- ERROR MESSAGE -->
             <div if:true={error} class="slds-var-m-top_large">
                 <div class="slds-text-heading_large slds-align_absolute-center">Feil
                 </div>
                 <div class="slds-text-color_destructive slds-align_absolute-center slds-var-m-around_x-large">{errorMsg}
                 </div>
             </div>
-
         </div>
 
 

@@ -1,0 +1,6 @@
+{
+  "main": "force-app",
+  "staticResourcesDirectory": "staticresources",
+  "port": 3333,
+  "customLabelsFile": "labels/CustomLabels.labels-meta.xml"
+}

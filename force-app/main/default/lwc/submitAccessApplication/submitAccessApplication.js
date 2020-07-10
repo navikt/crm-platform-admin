@@ -15,6 +15,9 @@ export default class SubmitAccessApplication extends LightningElement {
     @track loading;
     @track errorMsg;
 
+    @track canChangeUser = true; // TODO implement check
+    @track isButtonDisabled = true;
+
     @wire(getPermissions)
     deWire(result) {
         this.deWireResult = result;
