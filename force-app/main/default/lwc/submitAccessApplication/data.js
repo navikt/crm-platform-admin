@@ -4,6 +4,7 @@ export const COLUMNS = [
         fieldName: 'name',
         label: 'Name',
     },
+
     {
         type: 'text',
         fieldName: 'description',
