@@ -27,7 +27,7 @@ public class PackageUpdate_Schedule implements Schedulable {
             new InstalledPackageService(new Set<Id>{
                     environmentId
             }).refreshInstalledPackages();
-        } catch (CalloutException cex) {
+        } catch (CalloutException ex) {
             // Read timeouts are expected as the Tooling API may sometimes take more than 120s to respond
         }
     }
