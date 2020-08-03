@@ -23,8 +23,12 @@ public class PackageUpdate_Schedule implements Schedulable {
 
     @Future(Callout=true)
     private static void updateInstalledPackagesforEnvironment(Id environmentId) {
-        new InstalledPackageService(new Set<Id>{
-                environmentId
-        }).refreshInstalledPackages();
+        try {
+            new InstalledPackageService(new Set<Id>{
+                    environmentId
+            }).refreshInstalledPackages();
+        } catch (CalloutException exception) {
+            // Read timeouts are expected as the Tooling API may sometimes take more than 120s to respond
+        }
     }
 }
