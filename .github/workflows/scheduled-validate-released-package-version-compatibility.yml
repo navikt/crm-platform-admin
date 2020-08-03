@@ -29,13 +29,13 @@ jobs:
         uses: actions/checkout@v2
 
       # Store secret for dev hub
-      - name: Populate auth file with DEVHUB_SFDX_URL secret
+      - name: Populate auth file with PROD_SFDX_URL secret
         shell: bash
-        run: echo ${{ secrets.DEVHUB_SFDX_URL}} > ./DEVHUB_SFDX_URL.txt
+        run: echo ${{ secrets.PROD_SFDX_URL}} > ./PROD_SFDX_URL.txt
 
       # Authenticate dev hub
       - name: Authenticate Dev Hub
-        run: sfdx force:auth:sfdxurl:store -f ./DEVHUB_SFDX_URL.txt -a devhub -d
+        run: sfdx force:auth:sfdxurl:store -f ./PROD_SFDX_URL.txt -a devhub -d
 
       # Create scratch org
       - name: Create scratch org
