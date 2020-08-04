@@ -14,8 +14,7 @@
     "ServiceCloud",
     "LiveAgent",
     "LightningServiceConsole",
-    "ContactsToMultipleAccounts",
-    "FIELDSERVICE"
+    "ContactsToMultipleAccounts"
   ],
   "country": "NO",
   "language": "en_US",
@@ -37,6 +36,9 @@
     },
     "accountSettings": {
       "enableAccountTeams": true
+    },
+    "nameSettings": {
+      "enableMiddleName": true
     }
   }
 }
