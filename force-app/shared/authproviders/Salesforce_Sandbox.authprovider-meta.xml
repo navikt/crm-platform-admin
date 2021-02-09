@@ -1,8 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <AuthProvider xmlns="http://soap.sforce.com/2006/04/metadata">
-    <authorizeUrl>https://test.salesforce.com/services/oauth2/authorize</authorizeUrl>
-    <consumerKey>3MVG9Ve.2wqUVx_Z3N2_xrMOSIazKcmZzlC_NN8xsCvUUZ68rJCqVIs1WshHh0C1byyFtJFukSPuTTAHyklpp</consumerKey>
-    <consumerSecret>bJKtseu4FYYFe1tXETsz9EzjCDJ9VpyOoNyogD7OyZZcBt6t+VbB61ocZjHu70aafK6HhOfeCCz0YxYftlByiHBBGPdiC2rX</consumerSecret>
+    <authorizeUrl
+    >https://test.salesforce.com/services/oauth2/authorize</authorizeUrl>
+    <consumerKey
+    >3MVG9Ve.2wqUVx_Z3N2_xrMOSIazKcmZzlC_NN8xsCvUUZ68rJCqVIs1WshHh0C1byyFtJFukSPuTTAHyklpp</consumerKey>
+    <consumerSecret
+    >bJKtseu4FYYFe1tXETsz9EzjCDJ9VpyOoNyogD7OyZZcBt6t+VbB61ocZjHu70aafK6HhOfeCCz0YxYftlByiHBBGPdiC2rX</consumerSecret>
     <friendlyName>Salesforce_Sandbox</friendlyName>
     <includeOrgIdInIdentifier>true</includeOrgIdInIdentifier>
     <providerType>Salesforce</providerType>

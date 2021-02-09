@@ -1,9 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>LatestReleasedVersionInstallOrder__c</fullName>
-    <description>The logical installation order of the latest released version of this unlocked package. Populated by Apex and used to be able to query this object in order to know how to install all latest released versions of unlocked packages in the correct dependency order. Used by Github Action CI workflow to ensure the compatibility of released package versions.</description>
+    <description
+    >The logical installation order of the latest released version of this unlocked package. Populated by Apex and used to be able to query this object in order to know how to install all latest released versions of unlocked packages in the correct dependency order. Used by Github Action CI workflow to ensure the compatibility of released package versions.</description>
     <externalId>false</externalId>
-    <inlineHelpText>The logical installation order of the latest released version of this unlocked package. Used by Github Action CI workflow to ensure the compatibility of released package versions.</inlineHelpText>
+    <inlineHelpText
+    >The logical installation order of the latest released version of this unlocked package. Used by Github Action CI workflow to ensure the compatibility of released package versions.</inlineHelpText>
     <label>Latest Released Version Install Order</label>
     <precision>3</precision>
     <required>false</required>

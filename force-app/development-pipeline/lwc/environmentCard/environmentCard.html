@@ -1,32 +1,51 @@
 <template>
     <lightning-card class="slds-card_boundary">
-
         <template if:true={org.loading}>
-            <lightning-spinner size="medium" variant="brand"></lightning-spinner>
+            <lightning-spinner
+                size="medium"
+                variant="brand"
+            ></lightning-spinner>
         </template>
 
         <div slot="title">
-            <a onclick={navigateToRecordViewPage}>{org.Name}</a> <br/>
+            <a onclick={navigateToRecordViewPage}>{org.Name}</a> <br />
             <p class="slds-text-body_small">
-                 Last queried @&nbsp;
-                <lightning-formatted-date-time value={org.LastQueried__c} year="numeric" month="numeric" day="numeric" hour="numeric"
-                                               minute="2-digit" hour12="true"></lightning-formatted-date-time>
+                Last queried @&nbsp;
+                <lightning-formatted-date-time
+                    value={org.LastQueried__c}
+                    year="numeric"
+                    month="numeric"
+                    day="numeric"
+                    hour="numeric"
+                    minute="2-digit"
+                    hour12="true"
+                ></lightning-formatted-date-time>
             </p>
         </div>
 
-
         <div slot="actions">
-            <lightning-button-icon icon-name="utility:refresh" alternative-text="Refresh data"
-                                   class="slds-m-left_x-small" onclick={handleRefreshEnvironment}
-                                   data-orgid={org.Id}>
+            <lightning-button-icon
+                icon-name="utility:refresh"
+                alternative-text="Refresh data"
+                class="slds-m-left_x-small"
+                onclick={handleRefreshEnvironment}
+                data-orgid={org.Id}
+            >
             </lightning-button-icon>
         </div>
 
         <!--        Show placeholder illustration if no installed packages are found for the environment-->
         <template if:false={org.InstalledPackages__r}>
-            <div class="slds-illustration slds-illustration_large" aria-hidden="true">
-                <img src="/img/chatter/Desert.svg" class="slds-illustration__svg" alt=""
-                     style="max-width: 250px"/>
+            <div
+                class="slds-illustration slds-illustration_large"
+                aria-hidden="true"
+            >
+                <img
+                    src="/img/chatter/Desert.svg"
+                    class="slds-illustration__svg"
+                    alt=""
+                    style="max-width: 250px"
+                />
                 <div class="slds-text-color_weak">
                     <h3 class="slds-text-heading_small">No packages found</h3>
                 </div>
@@ -37,7 +56,10 @@
             <ul class="slds-has-dividers_around-space slds-p-horizontal_medium">
                 <template for:each={org.InstalledPackages__r} for:item="pckge">
                     <li key={pckge.Id}>
-                        <c-installed-package-tile pckge={pckge} ondeploy={handleDeploy}></c-installed-package-tile>
+                        <c-installed-package-tile
+                            pckge={pckge}
+                            ondeploy={handleDeploy}
+                        ></c-installed-package-tile>
                     </li>
                 </template>
             </ul>

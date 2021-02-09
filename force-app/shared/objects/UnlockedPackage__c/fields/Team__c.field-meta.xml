@@ -1,9 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Team__c</fullName>
-    <description>The team who owns the package. Used to filter packages in the Development Pipeline tab.</description>
+    <description
+    >The team who owns the package. Used to filter packages in the Development Pipeline tab.</description>
     <externalId>false</externalId>
-    <inlineHelpText>The team who owns the package. Used to filter packages in the Development Pipeline tab.</inlineHelpText>
+    <inlineHelpText
+    >The team who owns the package. Used to filter packages in the Development Pipeline tab.</inlineHelpText>
     <label>Team</label>
     <length>3</length>
     <required>false</required>

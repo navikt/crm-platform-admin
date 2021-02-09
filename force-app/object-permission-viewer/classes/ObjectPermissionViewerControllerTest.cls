@@ -1,6 +1,5 @@
 @IsTest
 public class ObjectPermissionViewerControllerTest {
-
     /*  We cannot create Permission Sets in Apex, and we don't want to depend on certain
         permission metadata being present in a given environment. This means that we
         can't perform meaningful assertions in the context of object permission analysis.
@@ -10,9 +9,8 @@ public class ObjectPermissionViewerControllerTest {
      */
 
     @IsTest
-    public static void testGetObjectPermissions () {
+    public static void testGetObjectPermissions() {
         ObjectPermissionViewerController.getObjectPermissions(true);
         ObjectPermissionViewerController.getObjectPermissions(false);
     }
-
 }

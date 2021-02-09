@@ -1,33 +1,33 @@
 <template>
     <li key={pckge.Name}>
-
         <div class="slds-app-launcher__tile slds-text-link_reset slds-truncate">
-        <div class="slds-app-launcher__tile-figure symbol" style={tileStyle}>
-                <span class="slds-avatar slds-avatar_large" style="line-height: 50px;">{pckge.UnlockedPackage__r.Team__c}</span>
+            <div
+                class="slds-app-launcher__tile-figure symbol"
+                style={tileStyle}
+            >
+                <span
+                    class="slds-avatar slds-avatar_large"
+                    style="line-height: 50px"
+                    >{pckge.UnlockedPackage__r.Team__c}</span
+                >
             </div>
             <div class="slds-app-launcher__tile-body">
-                <a href="javascript:void(0);" onclick={navigateToRecordViewPage}>{pckge.Name}</a>
+                <a href="javascript:void(0);" onclick={navigateToRecordViewPage}
+                    >{pckge.Name}</a
+                >
                 <p>{pckge.Version__c}</p>
                 <p class="slds-truncate" title={pckge.Version__c}>
-                    {pckge.Description__c}</p>
-                <p class="slds-truncate" title="Released">Is Released:&nbsp;
-                    <template if:true={pckge.IsBeta__c}>
-                        ❌
-                    </template>
-                    <template if:false={pckge.IsBeta__c}>
-                        ✅
-                    </template>Requires Key:&nbsp;
-                    <template if:false={pckge.IsHasKey__c}>
-                        ❌
-                    </template>
-                    <template if:true={pckge.IsHasKey__c}>
-                        ✅
-                    </template>
+                    {pckge.Description__c}
                 </p>
-
-
+                <p class="slds-truncate" title="Released">
+                    Is Released:&nbsp;
+                    <template if:true={pckge.IsBeta__c}> ❌ </template>
+                    <template if:false={pckge.IsBeta__c}> ✅ </template>Requires
+                    Key:&nbsp;
+                    <template if:false={pckge.IsHasKey__c}> ❌ </template>
+                    <template if:true={pckge.IsHasKey__c}> ✅ </template>
+                </p>
             </div>
         </div>
-
     </li>
 </template>

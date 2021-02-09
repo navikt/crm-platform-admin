@@ -21,4 +21,3 @@ public class MultiRequestMockSameEndpoint implements HttpCalloutMock {
         return res;
     }
 }
-
