@@ -36,9 +36,6 @@ $RECYCLE.BIN/
 
 .eslintignore
 
-# Visual Studio Code IDE
-.vscode/
-
 # IlluminatedCloud IDE
 *.iml
 .idea/
