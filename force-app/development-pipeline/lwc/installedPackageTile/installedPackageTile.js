@@ -1,9 +1,7 @@
 import { LightningElement, api } from 'lwc';
 import { NavigationMixin } from 'lightning/navigation';
 
-export default class InstalledPackageTile extends NavigationMixin(
-    LightningElement
-) {
+export default class InstalledPackageTile extends NavigationMixin(LightningElement) {
     @api pckge;
 
     navigateToRecordViewPage() {
@@ -18,8 +16,6 @@ export default class InstalledPackageTile extends NavigationMixin(
     }
 
     get tileStyle() {
-        return (
-            'background-color: #' + this.pckge.UnlockedPackage__r.ColorCode__c
-        );
+        return 'background-color: #' + this.pckge.UnlockedPackage__r.ColorCode__c;
     }
 }

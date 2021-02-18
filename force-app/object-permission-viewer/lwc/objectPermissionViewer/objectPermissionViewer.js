@@ -34,9 +34,7 @@ const OBJECT_PERMISSION_COLUMNS = [
     {
         type: 'action',
         typeAttributes: {
-            rowActions: [
-                { label: 'Show Assignment by Profile', name: 'show_details' }
-            ],
+            rowActions: [{ label: 'Show Assignment by Profile', name: 'show_details' }],
             menuAlignment: 'auto'
         }
     }
@@ -88,15 +86,13 @@ export default class ObjectPermissionViewer extends LightningElement {
         const row = event.detail.row;
         switch (action.name) {
             case 'show_details':
-                let assignedUserProfiles = this.objectPermissions.filter(
-                    (op) => op.uniqueKey === row.uniqueKey
-                )[0].assignedUserProfiles;
+                let assignedUserProfiles = this.objectPermissions.filter((op) => op.uniqueKey === row.uniqueKey)[0]
+                    .assignedUserProfiles;
                 if (assignedUserProfiles == null) {
                     this.dispatchEvent(
                         new ShowToastEvent({
                             title: 'No Permission Set Assignments Available',
-                            message:
-                                'This Permission Set is not currently assigned to users ',
+                            message: 'This Permission Set is not currently assigned to users ',
                             variant: 'info',
                             mode: 'dismissable'
                         })
