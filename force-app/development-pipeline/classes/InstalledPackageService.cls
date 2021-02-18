@@ -20,17 +20,11 @@ public class InstalledPackageService {
 
     private void insertNewInstalledPackageRecords() {
         List<InstalledPackage__c> installedPackagesToInsert = new List<InstalledPackage__c>();
-        for (
-            String namedCredential : this.installedPackagesByNamedCredential.keySet()
-        ) {
+        for (String namedCredential : this.installedPackagesByNamedCredential.keySet()) {
             for (
-                ToolingAPI.InstalledSubscriberPackage isp : this.installedPackagesByNamedCredential.get(
-                    namedCredential
-                )
+                ToolingAPI.InstalledSubscriberPackage isp : this.installedPackagesByNamedCredential.get(namedCredential)
             ) {
-                installedPackagesToInsert.add(
-                    createInstalledPackageRecord(isp, namedCredential)
-                );
+                installedPackagesToInsert.add(createInstalledPackageRecord(isp, namedCredential));
             }
         }
         insert installedPackagesToInsert;
@@ -41,12 +35,9 @@ public class InstalledPackageService {
         String namedCredential
     ) {
         InstalledPackage__c ip = new InstalledPackage__c();
-        ip.Environment__c = environmentByNamedCredential.get(namedCredential)
-            .Id;
+        ip.Environment__c = environmentByNamedCredential.get(namedCredential).Id;
         System.debug(isp.subscriberPackageId);
-        ip.UnlockedPackage__c = unlockedPackageIdBySubscriberPackageId.get(
-            isp.subscriberPackageId
-        );
+        ip.UnlockedPackage__c = unlockedPackageIdBySubscriberPackageId.get(isp.subscriberPackageId);
         ip.Description__c = isp.subscriberPackageVersion.description;
         ip.Name = isp.subscriberPackage.name;
         ip.Version__c =
@@ -78,14 +69,9 @@ public class InstalledPackageService {
 
     private void queryInstalledPackagesByOrg() {
         Map<String, List<ToolingAPI.InstalledSubscriberPackage>> installedPackagesByNamedCredential = new Map<String, List<ToolingAPI.InstalledSubscriberPackage>>();
-        for (
-            String namedCredential : this.environmentByNamedCredential.keySet()
-        ) {
+        for (String namedCredential : this.environmentByNamedCredential.keySet()) {
             this.tooling = new ToolingAPI(namedCredential);
-            installedPackagesByNamedCredential.put(
-                namedCredential,
-                getInstalledPackageVersionsForEnvironment()
-            );
+            installedPackagesByNamedCredential.put(namedCredential, getInstalledPackageVersionsForEnvironment());
         }
         this.installedPackagesByNamedCredential = installedPackagesByNamedCredential;
     }
@@ -113,23 +99,13 @@ public class InstalledPackageService {
     }
 
     private void deleteExistingInstalledPackageRecords() {
-        delete [
-            SELECT Id
-            FROM InstalledPackage__c
-            WHERE Environment__c IN :this.orgIds
-        ];
+        delete [SELECT Id FROM InstalledPackage__c WHERE Environment__c IN :this.orgIds];
     }
 
     private void getUnlockedPackageIdBySubscriberPackageId() {
         this.unlockedPackageIdBySubscriberPackageId = new Map<String, Id>();
-        for (UnlockedPackage__c up : [
-            SELECT Id, SubscriberPackageId__c
-            FROM UnlockedPackage__c
-        ]) {
-            this.unlockedPackageIdBySubscriberPackageId.put(
-                up.SubscriberPackageId__c,
-                up.Id
-            );
+        for (UnlockedPackage__c up : [SELECT Id, SubscriberPackageId__c FROM UnlockedPackage__c]) {
+            this.unlockedPackageIdBySubscriberPackageId.put(up.SubscriberPackageId__c, up.Id);
         }
     }
 
@@ -137,9 +113,7 @@ public class InstalledPackageService {
         // Instantiate new Environment records in order to update LastQueried field
         List<Environment__c> environmentsToUpdate = new List<Environment__c>();
         for (Id envId : orgIds) {
-            environmentsToUpdate.add(
-                new Environment__c(Id = envId, LastQueried__c = Datetime.now())
-            );
+            environmentsToUpdate.add(new Environment__c(Id = envId, LastQueried__c = Datetime.now()));
         }
         update environmentsToUpdate;
     }

@@ -8,20 +8,14 @@
             <div slot="title">
                 <div class="slds-media">
                     <div class="slds-media__figure">
-                        <lightning-icon
-                            icon-name="custom:custom39"
-                            size="large"
-                        ></lightning-icon>
+                        <lightning-icon icon-name="custom:custom39" size="large"></lightning-icon>
                     </div>
                     <div class="slds-media__body">
                         <h3>Object Permission Viewer</h3>
                         <p class="slds-page-header__name-meta">
-                            Shows all "View All" / "Modify All" Object
-                            Permissions granted through Permission Sets.<br />
-                            Violations are reported for permissions more
-                            permissive than defined in the
-                            <b>Permission Analyzer Object Settings</b> Custom
-                            Metadata object.
+                            Shows all "View All" / "Modify All" Object Permissions granted through Permission Sets.<br />
+                            Violations are reported for permissions more permissive than defined in the
+                            <b>Permission Analyzer Object Settings</b> Custom Metadata object.
                         </p>
                     </div>
                 </div>
@@ -54,10 +48,7 @@
         <template if:true={assignedUserProfiles}>
             <div class="bottom-card slds-p-right_small">
                 <lightning-card>
-                    <h3 slot="title">
-                        <b>{selectedPermissionSetName}</b>: Permission Set
-                        Assignments by Profile
-                    </h3>
+                    <h3 slot="title"><b>{selectedPermissionSetName}</b>: Permission Set Assignments by Profile</h3>
                     <lightning-button-icon
                         icon-name="utility:close"
                         variant="border"

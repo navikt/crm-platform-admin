@@ -3,20 +3,15 @@
         <div slot="title">
             <div class="slds-media">
                 <div class="slds-media__figure">
-                    <lightning-icon
-                        icon-name="standard:kanban"
-                        size="large"
-                    ></lightning-icon>
+                    <lightning-icon icon-name="standard:kanban" size="large"></lightning-icon>
                 </div>
                 <div class="slds-media__body">
                     <h3>Development Pipeline Viewer</h3>
                     <p class="slds-page-header__name-meta">
-                        Shows the currently installed package versions for all
-                        packages and environments defined in the "Unlocked
-                        Package" and "Environment" custom objects.<br />
-                        Installed package versions are queried through the
-                        Tooling API every 2 hours and can also refreshed
-                        manually.
+                        Shows the currently installed package versions for all packages and environments defined in the
+                        "Unlocked Package" and "Environment" custom objects.<br />
+                        Installed package versions are queried through the Tooling API every 2 hours and can also
+                        refreshed manually.
                     </p>
                 </div>
             </div>
@@ -29,43 +24,24 @@
         >
             <template if:true={initialLoading}>
                 <div style="min-height: 150px" class="slds-is-relative">
-                    <lightning-spinner
-                        variant="brand"
-                        size="large"
-                    ></lightning-spinner>
+                    <lightning-spinner variant="brand" size="large"></lightning-spinner>
                 </div>
             </template>
 
             <!-- Show placeholder illustration if no environments are configured-->
             <template if:true={showNoEnvironmentIllustration}>
-                <div
-                    class="slds-illustration slds-illustration_large slds-p-around--large"
-                    aria-hidden="true"
-                >
-                    <img
-                        src="/img/chatter/OpenRoad.svg"
-                        class="slds-illustration__svg"
-                        alt=""
-                    />
-                    <h3
-                        class="slds-illustration__header slds-text-heading_medium"
-                    >
-                        No environments found
-                    </h3>
+                <div class="slds-illustration slds-illustration_large slds-p-around--large" aria-hidden="true">
+                    <img src="/img/chatter/OpenRoad.svg" class="slds-illustration__svg" alt="" />
+                    <h3 class="slds-illustration__header slds-text-heading_medium">No environments found</h3>
                     <p class="slds-text-body_regular">
-                        Only environments listed under the "Environments" tab
-                        will show up here
+                        Only environments listed under the "Environments" tab will show up here
                     </p>
                 </div>
             </template>
 
             <template if:true={orgs}>
                 <template for:each={orgs} for:item="org">
-                    <lightning-layout-item
-                        key={org.Name}
-                        flexibility="grow"
-                        padding="around-small"
-                    >
+                    <lightning-layout-item key={org.Name} flexibility="grow" padding="around-small">
                         <c-environment-card
                             org={org}
                             onrefreshenvironment={handleRefreshData}

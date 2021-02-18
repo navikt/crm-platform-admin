@@ -33,11 +33,7 @@ public class PackageDependencyService {
         for (Id pvId : subscriberPackageVersionIdDependencyMap.keySet()) {
             SimplePackageVersion spv = dataStructureBySpvId.get(pvId);
             List<SimplePackageVersion> dependencies = new List<SimplePackageVersion>();
-            for (
-                Id dependencyPvId : subscriberPackageVersionIdDependencyMap.get(
-                    pvId
-                )
-            ) {
+            for (Id dependencyPvId : subscriberPackageVersionIdDependencyMap.get(pvId)) {
                 dependencies.add(dataStructureBySpvId.get(dependencyPvId));
             }
             spv.dependencies = dependencies;
@@ -48,13 +44,9 @@ public class PackageDependencyService {
 
     private void buildDependencyMap() {
         Map<Id, List<Id>> dependenciesBySubscriberPackageVersionId = new Map<Id, List<Id>>();
-        for (
-            ToolingAPI.Package2 package2 : getLatestPackageVersionPerPackageWithDependencies()
-        ) {
+        for (ToolingAPI.Package2 package2 : getLatestPackageVersionPerPackageWithDependencies()) {
             if (package2.package2Versions != null) {
-                for (
-                    ToolingAPI.Package2Version p2v : package2.package2Versions.records
-                ) {
+                for (ToolingAPI.Package2Version p2v : package2.package2Versions.records) {
                     List<Id> dependencies = new List<Id>();
                     if (p2v.subscriberPackageVersion.dependencies != null) {
                         for (
@@ -63,10 +55,7 @@ public class PackageDependencyService {
                             dependencies.add(id.subscriberPackageVersionId);
                         }
                     }
-                    dependenciesBySubscriberPackageVersionId.put(
-                        p2v.subscriberPackageVersionId,
-                        dependencies
-                    );
+                    dependenciesBySubscriberPackageVersionId.put(p2v.subscriberPackageVersionId, dependencies);
                 }
             }
         }
@@ -119,54 +108,38 @@ public class PackageDependencyService {
 
     public void orderByRequiredInstallationSequence() {
         Map<Id, SimplePackageVersion> spvBySubscriberPackageVersionId = getPackageVersionsBySubscriberPackageId();
-        this.simplePackageVersionsWithDependencies = findRequiredOrder(
-            spvBySubscriberPackageVersionId
-        );
+        this.simplePackageVersionsWithDependencies = findRequiredOrder(spvBySubscriberPackageVersionId);
     }
 
     private Map<Id, SimplePackageVersion> getPackageVersionsBySubscriberPackageId() {
         Map<Id, SimplePackageVersion> spvBySubscriberPackageVersionId = new Map<Id, SimplePackageVersion>();
-        for (
-            SimplePackageVersion spv : this.simplePackageVersionsWithDependencies
-        ) {
+        for (SimplePackageVersion spv : this.simplePackageVersionsWithDependencies) {
             spvBySubscriberPackageVersionId.put(spv.subscriberPackageId, spv);
         }
         return spvBySubscriberPackageVersionId;
     }
 
-    private List<SimplePackageVersion> findRequiredOrder(
-        Map<Id, SimplePackageVersion> spvBySubscriberPackageId
-    ) {
+    private List<SimplePackageVersion> findRequiredOrder(Map<Id, SimplePackageVersion> spvBySubscriberPackageId) {
         Map<Id, SimplePackageVersion> packageVersionsByRequiredOrderOfInstallation = new Map<Id, SimplePackageVersion>();
         while (!spvBySubscriberPackageId.keySet().isEmpty()) {
             for (Id subscriberPackageId : spvBySubscriberPackageId.keySet()) {
-                SimplePackageVersion pv = spvBySubscriberPackageId.get(
-                    subscriberPackageId
-                );
+                SimplePackageVersion pv = spvBySubscriberPackageId.get(subscriberPackageId);
                 // Package Versions that have no dependencies
                 if (pv.dependencies == null) {
-                    packageVersionsByRequiredOrderOfInstallation.put(
-                        subscriberPackageId,
-                        pv
-                    );
+                    packageVersionsByRequiredOrderOfInstallation.put(subscriberPackageId, pv);
                     spvBySubscriberPackageId.remove(subscriberPackageId);
                 } else {
                     // Add only if all dependencies are already added
                     Boolean allParentsAdded = true;
                     for (SimplePackageVersion dependencySpv : pv.dependencies) {
                         if (
-                            !packageVersionsByRequiredOrderOfInstallation.containsKey(
-                                dependencySpv.subscriberPackageId
-                            )
+                            !packageVersionsByRequiredOrderOfInstallation.containsKey(dependencySpv.subscriberPackageId)
                         ) {
                             allParentsAdded = false;
                         }
                     }
                     if (allParentsAdded) {
-                        packageVersionsByRequiredOrderOfInstallation.put(
-                            subscriberPackageId,
-                            pv
-                        );
+                        packageVersionsByRequiredOrderOfInstallation.put(subscriberPackageId, pv);
                         spvBySubscriberPackageId.remove(subscriberPackageId);
                     }
                 }

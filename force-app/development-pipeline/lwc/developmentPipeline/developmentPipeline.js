@@ -4,9 +4,7 @@ import refreshEnvironmentData from '@salesforce/apex/DevelopmentPipelineControll
 import { NavigationMixin } from 'lightning/navigation';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
-export default class DevelopmentPipeline extends NavigationMixin(
-    LightningElement
-) {
+export default class DevelopmentPipeline extends NavigationMixin(LightningElement) {
     @track orgs;
     @track initialLoading = true;
 
@@ -44,10 +42,8 @@ export default class DevelopmentPipeline extends NavigationMixin(
                 console.log(error);
                 this.dispatchEvent(
                     new ShowToastEvent({
-                        title:
-                            'An error occured while querying installed packages',
-                        message:
-                            'Check the application debug logs for more info',
+                        title: 'An error occured while querying installed packages',
+                        message: 'Check the application debug logs for more info',
                         variant: 'error',
                         mode: 'dismissable'
                     })
@@ -67,9 +63,6 @@ export default class DevelopmentPipeline extends NavigationMixin(
     }
 
     get showNoEnvironmentIllustration() {
-        return (
-            !this.initialLoading &&
-            (!Array.isArray(this.orgs) || this.orgs.length === 0)
-        );
+        return !this.initialLoading && (!Array.isArray(this.orgs) || this.orgs.length === 0);
     }
 }

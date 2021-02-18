@@ -15,10 +15,7 @@ private class PackageDependencyServiceTest {
         // Assert that the response is correctly parsed and returned in the correct order
         System.assertEquals(2, packageVersions.size());
         System.assertEquals('fflib-apex-mocks', packageVersions[0].packageName);
-        System.assertEquals(
-            'fflib-apex-common',
-            packageVersions[1].packageName
-        );
+        System.assertEquals('fflib-apex-common', packageVersions[1].packageName);
     }
 
     @IsTest
@@ -52,41 +49,20 @@ private class PackageDependencyServiceTest {
         Test.stopTest();
 
         packages = [
-            SELECT
-                Id,
-                LatestReleasedSubscriberPackageVersionId__c,
-                LatestReleasedVersionInstallOrder__c
+            SELECT Id, LatestReleasedSubscriberPackageVersionId__c, LatestReleasedVersionInstallOrder__c
             FROM UnlockedPackage__c
             ORDER BY Name ASC
         ];
 
         System.assertEquals(3, packages.size());
 
-        System.assertEquals(
-            '04t2o000001MwxDAAS',
-            packages[0].LatestReleasedSubscriberPackageVersionId__c
-        );
-        System.assertEquals(
-            '04t2o000001MwxIAAS',
-            packages[1].LatestReleasedSubscriberPackageVersionId__c
-        );
-        System.assertEquals(
-            null,
-            packages[2].LatestReleasedSubscriberPackageVersionId__c
-        );
+        System.assertEquals('04t2o000001MwxDAAS', packages[0].LatestReleasedSubscriberPackageVersionId__c);
+        System.assertEquals('04t2o000001MwxIAAS', packages[1].LatestReleasedSubscriberPackageVersionId__c);
+        System.assertEquals(null, packages[2].LatestReleasedSubscriberPackageVersionId__c);
 
-        System.assertEquals(
-            0,
-            packages[0].LatestReleasedVersionInstallOrder__c
-        );
-        System.assertEquals(
-            1,
-            packages[1].LatestReleasedVersionInstallOrder__c
-        );
-        System.assertEquals(
-            null,
-            packages[2].LatestReleasedVersionInstallOrder__c
-        );
+        System.assertEquals(0, packages[0].LatestReleasedVersionInstallOrder__c);
+        System.assertEquals(1, packages[1].LatestReleasedVersionInstallOrder__c);
+        System.assertEquals(null, packages[2].LatestReleasedVersionInstallOrder__c);
     }
 
     public static String package2Response =

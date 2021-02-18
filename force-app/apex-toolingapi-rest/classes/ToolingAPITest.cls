@@ -31,10 +31,7 @@
 private class ToolingAPITest {
     @IsTest
     static void testQueryCustomObjects() {
-        Test.setMock(
-            HttpCalloutMock.class,
-            new ToolingAPIMock(testObjectResponse, 200)
-        );
+        Test.setMock(HttpCalloutMock.class, new ToolingAPIMock(testObjectResponse, 200));
         ToolingAPI toolingAPI = new ToolingAPI();
         Test.startTest();
         List<ToolingAPI.CustomObject> result = (List<ToolingAPI.CustomObject>) toolingAPI.query(
@@ -48,10 +45,7 @@ private class ToolingAPITest {
 
     @IsTest
     static void testQueryCustomFields() {
-        Test.setMock(
-            HttpCalloutMock.class,
-            new ToolingAPIMock(testFieldResponse, 200)
-        );
+        Test.setMock(HttpCalloutMock.class, new ToolingAPIMock(testFieldResponse, 200));
         ToolingAPI toolingAPI = new ToolingAPI();
         Test.startTest();
         List<ToolingAPI.CustomField> result = (List<ToolingAPI.CustomField>) toolingAPI.query(
@@ -65,13 +59,9 @@ private class ToolingAPITest {
 
     @IsTest
     static void testQueryApexClassMember() {
-        Test.setMock(
-            HttpCalloutMock.class,
-            new ToolingAPIMock(testApexClassMemberQueryResponse, 200)
-        );
+        Test.setMock(HttpCalloutMock.class, new ToolingAPIMock(testApexClassMemberQueryResponse, 200));
         Test.startTest();
-        ToolingAPI.QueryResult result = (new ToolingAPI())
-            .query('Select Id From ApexClassMember');
+        ToolingAPI.QueryResult result = (new ToolingAPI()).query('Select Id From ApexClassMember');
         Test.stopTest();
         System.assertNotEquals(null, result);
     }
@@ -79,10 +69,7 @@ private class ToolingAPITest {
     @IsTest
     static void testQueryApexClassMemberError() {
         boolean exceptionEncountered = false;
-        Test.setMock(
-            HttpCalloutMock.class,
-            new ToolingAPIMock(testErrorResponse, 400)
-        );
+        Test.setMock(HttpCalloutMock.class, new ToolingAPIMock(testErrorResponse, 400));
         ToolingAPI toolingAPI = new ToolingAPI();
         try {
             Test.startTest();
@@ -99,62 +86,43 @@ private class ToolingAPITest {
 
     @IsTest
     static void describeGlobal() {
-        Test.setMock(
-            HttpCalloutMock.class,
-            new ToolingAPIMock(testApexClassMemberQueryResponse, 200)
-        );
+        Test.setMock(HttpCalloutMock.class, new ToolingAPIMock(testApexClassMemberQueryResponse, 200));
         Test.startTest();
-        ToolingAPI.DescribeGlobalResult result = (new ToolingAPI())
-            .describeGlobal();
+        ToolingAPI.DescribeGlobalResult result = (new ToolingAPI()).describeGlobal();
         Test.stopTest();
         System.assertNotEquals(null, result);
     }
 
     @IsTest
     static void describeSObject() {
-        Test.setMock(
-            HttpCalloutMock.class,
-            new ToolingAPIMock(testApexClassMemberQueryResponse, 200)
-        );
+        Test.setMock(HttpCalloutMock.class, new ToolingAPIMock(testApexClassMemberQueryResponse, 200));
         Test.startTest();
-        ToolingAPI.DescribeSObjectResult result = (new ToolingAPI())
-            .describeSObject('Account');
+        ToolingAPI.DescribeSObjectResult result = (new ToolingAPI()).describeSObject('Account');
         Test.stopTest();
         System.assertNotEquals(null, result);
     }
 
     @IsTest
     static void executeAnonymousEncoded() {
-        Test.setMock(
-            HttpCalloutMock.class,
-            new ToolingAPIMock(testApexClassMemberQueryResponse, 200)
-        );
+        Test.setMock(HttpCalloutMock.class, new ToolingAPIMock(testApexClassMemberQueryResponse, 200));
         Test.startTest();
-        ToolingAPI.ExecuteAnonymousResult result = (new ToolingAPI())
-            .executeAnonymousEncoded('System.debug(null);');
+        ToolingAPI.ExecuteAnonymousResult result = (new ToolingAPI()).executeAnonymousEncoded('System.debug(null);');
         Test.stopTest();
         System.assertNotEquals(null, result);
     }
 
     @IsTest
     static void executeAnonymousUnencoded() {
-        Test.setMock(
-            HttpCalloutMock.class,
-            new ToolingAPIMock(testApexClassMemberQueryResponse, 200)
-        );
+        Test.setMock(HttpCalloutMock.class, new ToolingAPIMock(testApexClassMemberQueryResponse, 200));
         Test.startTest();
-        ToolingAPI.ExecuteAnonymousResult result = (new ToolingAPI())
-            .executeAnonymousUnencoded('System.debug(null);');
+        ToolingAPI.ExecuteAnonymousResult result = (new ToolingAPI()).executeAnonymousUnencoded('System.debug(null);');
         Test.stopTest();
         System.assertNotEquals(null, result);
     }
 
     @IsTest
     static void retrieveApexLog() {
-        Test.setMock(
-            HttpCalloutMock.class,
-            new ToolingAPIMock(testApexClassMemberQueryResponse, 200)
-        );
+        Test.setMock(HttpCalloutMock.class, new ToolingAPIMock(testApexClassMemberQueryResponse, 200));
         Test.startTest();
         ToolingAPI.ApexLog result = (new ToolingAPI()).retrieveApexLog(null);
         Test.stopTest();
@@ -163,66 +131,42 @@ private class ToolingAPITest {
 
     @IsTest
     static void retrieveSObject() {
-        Test.setMock(
-            HttpCalloutMock.class,
-            new ToolingAPIMock(testApexClassMemberQueryResponse, 200)
-        );
+        Test.setMock(HttpCalloutMock.class, new ToolingAPIMock(testApexClassMemberQueryResponse, 200));
         Test.startTest();
-        ToolingAPI.SObject_x result = (new ToolingAPI())
-            .retrieveSObject(ToolingAPI.SObjectType.ApexClass, null);
+        ToolingAPI.SObject_x result = (new ToolingAPI()).retrieveSObject(ToolingAPI.SObjectType.ApexClass, null);
         Test.stopTest();
         System.assertNotEquals(null, result);
     }
 
     @IsTest
     static void deleteSObject() {
-        Test.setMock(
-            HttpCalloutMock.class,
-            new ToolingAPIMock(JSON.serialize(new ToolingAPI.SaveResult()), 204)
-        );
+        Test.setMock(HttpCalloutMock.class, new ToolingAPIMock(JSON.serialize(new ToolingAPI.SaveResult()), 204));
         Test.startTest();
-        ToolingAPI.SaveResult result = (new ToolingAPI())
-            .deleteSObject(ToolingAPI.SObjectType.ApexClass, null);
+        ToolingAPI.SaveResult result = (new ToolingAPI()).deleteSObject(ToolingAPI.SObjectType.ApexClass, null);
         Test.stopTest();
         System.assertNotEquals(null, result);
     }
 
     @IsTest
     static void deleteSObject2() {
-        Test.setMock(
-            HttpCalloutMock.class,
-            new ToolingAPIMock(testApexClassMemberQueryResponse, 200)
-        );
+        Test.setMock(HttpCalloutMock.class, new ToolingAPIMock(testApexClassMemberQueryResponse, 200));
         Test.startTest();
-        ToolingAPI.SObject_x result = (new ToolingAPI())
-            .retrieveSObject(ToolingAPI.SObjectType.ApexClass, null);
+        ToolingAPI.SObject_x result = (new ToolingAPI()).retrieveSObject(ToolingAPI.SObjectType.ApexClass, null);
         System.assertNotEquals(null, result);
-        Test.setMock(
-            HttpCalloutMock.class,
-            new ToolingAPIMock(JSON.serialize(new ToolingAPI.SaveResult()), 204)
-        );
-        ToolingAPI.SaveResult result2 = (new ToolingAPI())
-            .deleteSObject(result);
+        Test.setMock(HttpCalloutMock.class, new ToolingAPIMock(JSON.serialize(new ToolingAPI.SaveResult()), 204));
+        ToolingAPI.SaveResult result2 = (new ToolingAPI()).deleteSObject(result);
         Test.stopTest();
         System.assertNotEquals(null, result2);
     }
 
     @IsTest
     static void createSObject() {
-        Test.setMock(
-            HttpCalloutMock.class,
-            new ToolingAPIMock(testApexClassMemberQueryResponse, 200)
-        );
+        Test.setMock(HttpCalloutMock.class, new ToolingAPIMock(testApexClassMemberQueryResponse, 200));
         Test.startTest();
-        ToolingAPI.SObject_x result = (new ToolingAPI())
-            .retrieveSObject(ToolingAPI.SObjectType.ApexClass, null);
+        ToolingAPI.SObject_x result = (new ToolingAPI()).retrieveSObject(ToolingAPI.SObjectType.ApexClass, null);
         System.assertNotEquals(null, result);
-        Test.setMock(
-            HttpCalloutMock.class,
-            new ToolingAPIMock(JSON.serialize(new ToolingAPI.SaveResult()), 201)
-        );
-        ToolingAPI.SaveResult result2 = (new ToolingAPI())
-            .createSObject(result);
+        Test.setMock(HttpCalloutMock.class, new ToolingAPIMock(JSON.serialize(new ToolingAPI.SaveResult()), 201));
+        ToolingAPI.SaveResult result2 = (new ToolingAPI()).createSObject(result);
         Test.stopTest();
         System.assertNotEquals(null, result2);
     }
@@ -444,11 +388,7 @@ private class ToolingAPITest {
         '"entityTypeName" : "CustomFieldDefinition"' +
         '}';
 
-    private static String testErrorResponse =
-        '[{' +
-        '"errorCode" : "INVALID_FIELD",' +
-        '"message" : "message"' +
-        '}]';
+    private static String testErrorResponse = '[{' + '"errorCode" : "INVALID_FIELD",' + '"message" : "message"' + '}]';
 
     private static String testApexClassMemberQueryResponse =
         '{' +

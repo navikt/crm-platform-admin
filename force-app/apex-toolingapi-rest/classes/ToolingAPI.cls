@@ -109,9 +109,7 @@ public with sharing class ToolingAPI {
      * @throws ToolingAPIException if an an exception was encountered.
      */
     public QueryResult query(String queryString) {
-        HttpResponse response = submitRestCall(
-            '/query/?q=' + EncodingUtil.urlEncode(queryString, 'UTF-8')
-        );
+        HttpResponse response = submitRestCall('/query/?q=' + EncodingUtil.urlEncode(queryString, 'UTF-8'));
         return parseQueryResult(response.getBody());
     }
 
@@ -122,10 +120,7 @@ public with sharing class ToolingAPI {
      * @throws ToolingAPIException if an an exception was encountered.
      */
     public DescribeGlobalResult describeGlobal() {
-        return (DescribeGlobalResult) submitRestCallAndDeserialize(
-            '/sobjects',
-            DescribeGlobalResult.class
-        );
+        return (DescribeGlobalResult) submitRestCallAndDeserialize('/sobjects', DescribeGlobalResult.class);
     }
 
     /**
@@ -183,17 +178,9 @@ public with sharing class ToolingAPI {
      * @throws ToolingAPIException if an exception was encountered
      */
     public ApexLog retrieveApexLog(Id apexLogId) {
-        String body = submitRestCall(
-                '/sobjects/ApexLog/' +
-                apexLogId +
-                '/Body/'
-            )
-            .getBody();
+        String body = submitRestCall('/sobjects/ApexLog/' + apexLogId + '/Body/').getBody();
 
-        ApexLog log = (ToolingAPI.ApexLog) retrieveSObject(
-            SObjectType.ApexLog,
-            apexLogId
-        );
+        ApexLog log = (ToolingAPI.ApexLog) retrieveSObject(SObjectType.ApexLog, apexLogId);
 
         //Append the body from the first REST call to the ApexLog record.
         log.body = body;
@@ -223,10 +210,7 @@ public with sharing class ToolingAPI {
      * @param sobjType name of one of the valid Tooling API SObject's
      * @param sobjectId Id of the applicable record to delete
      **/
-    public ToolingAPI.SaveResult deleteSObject(
-        SObjectType sobjType,
-        Id sobjectId
-    ) {
+    public ToolingAPI.SaveResult deleteSObject(SObjectType sobjType, Id sobjectId) {
         return (ToolingAPI.SaveResult) submitRestCallAndDeserialize(
             '/sobjects/' +
             sobjType.name() +
@@ -498,15 +482,9 @@ public with sharing class ToolingAPI {
             if (metadata != null)
                 jsonGen.writeObjectField('metadata', metadata);
             if (metadataContainer != null)
-                jsonGen.writeObjectField(
-                    'metadataContainer',
-                    metadataContainer
-                );
+                jsonGen.writeObjectField('metadataContainer', metadataContainer);
             if (metadataContainerId != null)
-                jsonGen.writeStringField(
-                    'metadataContainerId',
-                    metadataContainerId
-                );
+                jsonGen.writeStringField('metadataContainerId', metadataContainerId);
             if (symbolTable != null)
                 jsonGen.writeObjectField('symbolTable', symbolTable);
         }
@@ -540,10 +518,7 @@ public with sharing class ToolingAPI {
             if (metadata != null)
                 jsonGen.writeObjectField('metadata', metadata);
             if (metadataContainerId != null)
-                jsonGen.writeIdField(
-                    'metadataContainerId',
-                    metadataContainerId
-                );
+                jsonGen.writeIdField('metadataContainerId', metadataContainerId);
             if (symbolTable != null)
                 jsonGen.writeObjectField('symbolTable', symbolTable);
         }
@@ -632,10 +607,7 @@ public with sharing class ToolingAPI {
             if (isValid != null)
                 jsonGen.writeBooleanField('isValid', isValid);
             if (lengthWithoutComments != null)
-                jsonGen.writeNumberField(
-                    'lengthWithoutComments',
-                    lengthWithoutComments
-                );
+                jsonGen.writeNumberField('lengthWithoutComments', lengthWithoutComments);
             if (name != null)
                 jsonGen.writeStringField('name', name);
             if (namespacePrefix != null)
@@ -649,27 +621,15 @@ public with sharing class ToolingAPI {
             if (usageAfterInsert != null)
                 jsonGen.writeBooleanField('usageAfterInsert', usageAfterInsert);
             if (usageAfterUndelete != null)
-                jsonGen.writeBooleanField(
-                    'usageAfterUndelete',
-                    usageAfterUndelete
-                );
+                jsonGen.writeBooleanField('usageAfterUndelete', usageAfterUndelete);
             if (usageAfterUpdate != null)
                 jsonGen.writeBooleanField('usageAfterUpdate', usageAfterUpdate);
             if (usageBeforeDelete != null)
-                jsonGen.writeBooleanField(
-                    'usageBeforeDelete',
-                    usageBeforeDelete
-                );
+                jsonGen.writeBooleanField('usageBeforeDelete', usageBeforeDelete);
             if (usageBeforeInsert != null)
-                jsonGen.writeBooleanField(
-                    'usageBeforeInsert',
-                    usageBeforeInsert
-                );
+                jsonGen.writeBooleanField('usageBeforeInsert', usageBeforeInsert);
             if (usageBeforeUpdate != null)
-                jsonGen.writeBooleanField(
-                    'usageBeforeUpdate',
-                    usageBeforeUpdate
-                );
+                jsonGen.writeBooleanField('usageBeforeUpdate', usageBeforeUpdate);
             if (usageIsBulk != null)
                 jsonGen.writeBooleanField('usageIsBulk', usageIsBulk);
         }
@@ -725,19 +685,13 @@ public with sharing class ToolingAPI {
             if (extendedStatus != null)
                 jsonGen.writeStringField('extendedStatus', extendedStatus);
             if (jobItemsProcessed != null)
-                jsonGen.writeNumberField(
-                    'jobItemsProcessed',
-                    jobItemsProcessed
-                );
+                jsonGen.writeNumberField('jobItemsProcessed', jobItemsProcessed);
             if (jobType != null)
                 jsonGen.writeStringField('jobType', jobType);
             if (lastProcessed != null)
                 jsonGen.writeStringField('lastProcessed', lastProcessed);
             if (lastProcessedOffset != null)
-                jsonGen.writeNumberField(
-                    'lastProcessedOffset',
-                    lastProcessedOffset
-                );
+                jsonGen.writeNumberField('lastProcessedOffset', lastProcessedOffset);
             if (methodName != null)
                 jsonGen.writeStringField('methodName', methodName);
             if (numberOfErrors != null)
@@ -795,25 +749,13 @@ public with sharing class ToolingAPI {
             if (isRunTests != null)
                 jsonGen.writeBooleanField('isRunTests', isRunTests);
             if (metadataContainer != null)
-                jsonGen.writeObjectField(
-                    'metadataContainer',
-                    metadataContainer
-                );
+                jsonGen.writeObjectField('metadataContainer', metadataContainer);
             if (metadataContainerId != null)
-                jsonGen.writeStringField(
-                    'metadataContainerId',
-                    metadataContainerId
-                );
+                jsonGen.writeStringField('metadataContainerId', metadataContainerId);
             if (metadataContainerMember != null)
-                jsonGen.writeObjectField(
-                    'metadataContainerMember',
-                    metadataContainerMember
-                );
+                jsonGen.writeObjectField('metadataContainerMember', metadataContainerMember);
             if (metadataContainerMemberId != null)
-                jsonGen.writeStringField(
-                    'metadataContainerMemberId',
-                    metadataContainerMemberId
-                );
+                jsonGen.writeStringField('metadataContainerMemberId', metadataContainerMemberId);
             if (state != null)
                 jsonGen.writeStringField('state', state);
         }
@@ -907,10 +849,7 @@ public with sharing class ToolingAPI {
             if (developerName != null)
                 jsonGen.writeStringField('developerName', developerName);
             if (externalDataSourceId != null)
-                jsonGen.writeStringField(
-                    'externalDataSourceId',
-                    externalDataSourceId
-                );
+                jsonGen.writeStringField('externalDataSourceId', externalDataSourceId);
             if (namespacePrefix != null)
                 jsonGen.writeStringField('namespacePrefix', namespacePrefix);
         }
@@ -1221,15 +1160,9 @@ public with sharing class ToolingAPI {
             if (lastSyncDate != null)
                 jsonGen.writeDateTimeField('lastSyncDate', lastSyncDate);
             if (metadataContainer != null)
-                jsonGen.writeObjectField(
-                    'metadataContainer',
-                    metadataContainer
-                );
+                jsonGen.writeObjectField('metadataContainer', metadataContainer);
             if (metadataContainerId != null)
-                jsonGen.writeObjectField(
-                    'metadataContainerId',
-                    metadataContainerId
-                );
+                jsonGen.writeObjectField('metadataContainerId', metadataContainerId);
         }
     }
 
@@ -1273,10 +1206,7 @@ public with sharing class ToolingAPI {
             if (lastName != null)
                 jsonGen.writeStringField('lastName', lastName);
             if (lastReferencedDate != null)
-                jsonGen.writeDateTimeField(
-                    'lastReferencedDate',
-                    lastReferencedDate
-                );
+                jsonGen.writeDateTimeField('lastReferencedDate', lastReferencedDate);
             if (lastViewedDate != null)
                 jsonGen.writeDateTimeField('lastViewedDate', lastViewedDate);
             if (name != null)
@@ -1561,11 +1491,7 @@ public with sharing class ToolingAPI {
 
     public class ToolingAPIException extends Exception {
         public ToolingAPIException(List<ErrorResponse> errorResponses) {
-            this(
-                errorResponses[0].errorCode +
-                ' : ' +
-                errorResponses[0].message
-            );
+            this(errorResponses[0].errorCode + ' : ' + errorResponses[0].message);
         }
     }
 
@@ -1700,10 +1626,7 @@ public with sharing class ToolingAPI {
             if (fullName != null)
                 jsonGen.writeStringField('fullName', fullName);
             if (lastModifiedDate != null)
-                jsonGen.writeDateTimeField(
-                    'lastModifiedDate',
-                    lastModifiedDate
-                );
+                jsonGen.writeDateTimeField('lastModifiedDate', lastModifiedDate);
             if (metadata != null)
                 jsonGen.writeObjectField('metadata', metadata);
             if (name != null)
@@ -1734,10 +1657,7 @@ public with sharing class ToolingAPI {
             if (description != null)
                 jsonGen.writeStringField('description', description);
             if (lastModifiedDate != null)
-                jsonGen.writeDateTimeField(
-                    'lastModifiedDate',
-                    lastModifiedDate
-                );
+                jsonGen.writeDateTimeField('lastModifiedDate', lastModifiedDate);
             if (namespacePrefix != null)
                 jsonGen.writeStringField('namespacePrefix', namespacePrefix);
             if (tableEnumOrId != null)
@@ -1756,19 +1676,13 @@ public with sharing class ToolingAPI {
         public override void serialize(JSONGenerator jsonGen) {
             super.serialize(jsonGen);
             if (lastModifiedDate != null)
-                jsonGen.writeDateTimeField(
-                    'lastModifiedDate',
-                    lastModifiedDate
-                );
+                jsonGen.writeDateTimeField('lastModifiedDate', lastModifiedDate);
             if (name != null)
                 jsonGen.writeStringField('name', name);
             if (namespacePrefix != null)
                 jsonGen.writeStringField('namespacePrefix', namespacePrefix);
             if (sourceTableEnumOrId != null)
-                jsonGen.writeStringField(
-                    'sourceTableEnumOrId',
-                    sourceTableEnumOrId
-                );
+                jsonGen.writeStringField('sourceTableEnumOrId', sourceTableEnumOrId);
         }
     }
 
@@ -1783,10 +1697,7 @@ public with sharing class ToolingAPI {
         public override void serialize(JSONGenerator jsonGen) {
             super.serialize(jsonGen);
             if (lastModifiedDate != null)
-                jsonGen.writeDateTimeField(
-                    'lastModifiedDate',
-                    lastModifiedDate
-                );
+                jsonGen.writeDateTimeField('lastModifiedDate', lastModifiedDate);
             if (name != null)
                 jsonGen.writeStringField('name', name);
             if (namespacePrefix != null)
@@ -1807,10 +1718,7 @@ public with sharing class ToolingAPI {
         public override void serialize(JSONGenerator jsonGen) {
             super.serialize(jsonGen);
             if (lastModifiedDate != null)
-                jsonGen.writeDateTimeField(
-                    'lastModifiedDate',
-                    lastModifiedDate
-                );
+                jsonGen.writeDateTimeField('lastModifiedDate', lastModifiedDate);
             if (namespacePrefix != null)
                 jsonGen.writeStringField('namespacePrefix', namespacePrefix);
             if (subject != null)
@@ -1930,10 +1838,7 @@ public with sharing class ToolingAPI {
      * This method should be used for the public methods when the generic JSON deserialize method
      * may be used. Sends a HTTP GET request.
      */
-    private Object submitRestCallAndDeserialize(
-        String relativeUrl,
-        Type classType
-    ) {
+    private Object submitRestCallAndDeserialize(String relativeUrl, Type classType) {
         return submitRestCallAndDeserialize(relativeUrl, classType, 'GET');
     }
 
@@ -1942,17 +1847,8 @@ public with sharing class ToolingAPI {
      * This method should be used for the public methods when the generic JSON deserialize method
      * may be used. Sends a HTTP requested based on method parameter.
      */
-    private Object submitRestCallAndDeserialize(
-        String relativeUrl,
-        Type classType,
-        String method
-    ) {
-        return submitRestCallAndDeserialize(
-            relativeUrl,
-            classType,
-            method,
-            null
-        );
+    private Object submitRestCallAndDeserialize(String relativeUrl, Type classType, String method) {
+        return submitRestCallAndDeserialize(relativeUrl, classType, method, null);
     }
 
     /*
@@ -1960,12 +1856,7 @@ public with sharing class ToolingAPI {
      * This method should be used for the public methods when the generic JSON deserialize method
      * may be used. Sends a HTTP requested based on method parameter and data.
      */
-    private Object submitRestCallAndDeserialize(
-        String relativeUrl,
-        Type classType,
-        String method,
-        Object data
-    ) {
+    private Object submitRestCallAndDeserialize(String relativeUrl, Type classType, String method, Object data) {
         HttpResponse response = submitRestCall(relativeUrl, method, data);
         String responseBody = response.getBody();
         if (responseBody != null && responseBody.length() > 0)
@@ -1995,28 +1886,15 @@ public with sharing class ToolingAPI {
      *
      * @throws ToolingAPIAuthorizationException if the remote site is not authorized.
      */
-    private HttpResponse submitRestCall(
-        String relativeUrl,
-        String method,
-        Object data
-    ) {
+    private HttpResponse submitRestCall(String relativeUrl, String method, Object data) {
         Http h = new Http();
         HttpRequest queryReq = new HttpRequest();
 
         if (String.isBlank(this.namedCredential)) {
-            queryReq.setEndpoint(
-                URL.getSalesforceBaseUrl().toExternalForm() +
-                TOOLING_API_URI +
-                relativeUrl
-            );
+            queryReq.setEndpoint(URL.getSalesforceBaseUrl().toExternalForm() + TOOLING_API_URI + relativeUrl);
             queryReq.setHeader('Authorization', 'OAuth ' + this.sessionId);
         } else {
-            queryReq.setEndpoint(
-                'callout:' +
-                this.namedCredential +
-                TOOLING_API_URI +
-                relativeUrl
-            );
+            queryReq.setEndpoint('callout:' + this.namedCredential + TOOLING_API_URI + relativeUrl);
         }
 
         queryReq.setHeader('Content-Type', 'application/json');
@@ -2057,15 +1935,10 @@ public with sharing class ToolingAPI {
         if (queryRes.getStatusCode() != successCode) {
             if (queryRes.getBody().length() > 0) {
                 throw new ToolingAPIException(
-                    (List<ErrorResponse>) JSON.deserialize(
-                        queryRes.getBody(),
-                        List<ErrorResponse>.class
-                    )
+                    (List<ErrorResponse>) JSON.deserialize(queryRes.getBody(), List<ErrorResponse>.class)
                 );
             } else {
-                throw new ToolingAPIException(
-                    'Unexpected HTTP Status ' + queryRes.getStatusCode()
-                );
+                throw new ToolingAPIException('Unexpected HTTP Status ' + queryRes.getStatusCode());
             }
         }
         System.debug(queryRes.getBody());
@@ -2076,10 +1949,7 @@ public with sharing class ToolingAPI {
      * Helper method for parsing query results
      **/
     private QueryResult parseQueryResult(String jsonStr) {
-        QueryResult queryResult = (QueryResult) JSON.deserialize(
-            jsonStr,
-            ToolingAPI.QueryResult.class
-        );
+        QueryResult queryResult = (QueryResult) JSON.deserialize(jsonStr, ToolingAPI.QueryResult.class);
         queryResult.records = getQueryResultRecords(jsonStr);
         return queryResult;
     }
@@ -2097,9 +1967,7 @@ public with sharing class ToolingAPI {
             while (parser.nextToken() != null) {
                 if ((parser.getText() == 'records')) {
                     parser.nextToken();
-                    return (List<SObject_x>) parser.readValueAs(
-                        Type.forName('List<ToolingAPI.' + recordType + '>')
-                    );
+                    return (List<SObject_x>) parser.readValueAs(Type.forName('List<ToolingAPI.' + recordType + '>'));
                 }
             }
         }

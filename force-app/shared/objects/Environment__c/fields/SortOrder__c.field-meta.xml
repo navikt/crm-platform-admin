@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>SortOrder__c</fullName>
-    <description
-    >The org&#39;s placement in the pipeline. Ascending from left-to-right.</description>
+    <description>The org&#39;s placement in the pipeline. Ascending from left-to-right.</description>
     <externalId>false</externalId>
     <label>Sort Order</label>
     <precision>2</precision>

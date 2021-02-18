@@ -4,11 +4,9 @@ public class PackageDependencyViewerController {
         Boolean releasedVersionsOnly
     ) {
         if (releasedVersionsOnly) {
-            return new PackageDependencyService()
-                .getDependenciesForLatestReleasedVersions();
+            return new PackageDependencyService().getDependenciesForLatestReleasedVersions();
         } else {
-            return new PackageDependencyService()
-                .getDependenciesForLatestVersions();
+            return new PackageDependencyService().getDependenciesForLatestVersions();
         }
     }
 }
