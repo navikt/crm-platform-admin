@@ -9,7 +9,7 @@ on:
     paths:
       - '.github/workflows/scheduled-validate-object-permissions.yml'
   schedule:
-    - cron:  '0 * * * *'
+    - cron:  '0 8 * * *'
 
 # Jobs to be executed
 jobs:
