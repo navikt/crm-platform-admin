@@ -55,7 +55,7 @@ jobs:
         if: steps.test-run-production.outputs.statusCode != '0'
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-        uses: pullreminders/slack-action@master
+        uses: abinoda/slack-action@master
         with:
           args: '{\"channel\":\"C012KBWG4SC\",\"text\":\" @channel *Permission Set Object Permission Check Failed (PRODUCTION)*\n ${{steps.test-run-production.outputs.errorMessage}} \"}'
 
@@ -72,6 +72,6 @@ jobs:
         if: steps.test-run-preprod.outputs.statusCode != '0'
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-        uses: pullreminders/slack-action@master
+        uses: abinoda/slack-action@master
         with:
           args: '{\"channel\":\"C012KBWG4SC\",\"text\":\" @channel *Permission Set Object Permission Check Failed (PREPROD)*\n ${{steps.test-run-preprod.outputs.errorMessage}} \"}'
