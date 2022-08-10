@@ -100,8 +100,9 @@ public class PackageDependencyService {
     }
 
     private List<ToolingAPI.Package2Version> getAllPackageVersions() {
+        // Salesforce limits the output to 2000 before throwing an exception, so the query has to be limited.
         ToolingAPI.QueryResult result = tooling.query(
-            'SELECT Id, Package2.SubscriberPackageId, Package2.Name, Package2.Id, MajorVersion, MinorVersion, PatchVersion, BuildNumber, SubscriberPackageVersionId FROM Package2Version'
+            'SELECT Id, Package2.SubscriberPackageId, Package2.Name, Package2.Id, MajorVersion, MinorVersion, PatchVersion, BuildNumber, SubscriberPackageVersionId FROM Package2Version LIMIT 2000'
         );
         return (List<ToolingAPI.Package2Version>) result.records;
     }
