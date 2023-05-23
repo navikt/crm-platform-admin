@@ -1,6 +1,4 @@
 echo "Oppretter Sandbox"
-call sfdx force:org:create --type sandbox --definitionfile config/dev-sandbox-def.json -a %1 -s -w 240 -u NAV_PROD_SFDX
+call sf org create sandbox --alias %1 --name %1 --license-type Developer --set-default --wait 240 --target-org NAV_PROD
 
 echo "Ferdig"
-
-
