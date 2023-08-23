@@ -1,6 +1,6 @@
 # crm-platform-admin
 
-This repo is deprecated and will not me maintained. 
+This repository is now deprecated and will no longer receive maintenance or updates.
 
 This package contains administration, audit and monitoring functionality in order to monitor and support development and
 deployment on the Salesforce platform.
