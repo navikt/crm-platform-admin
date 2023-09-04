@@ -1,4 +1,4 @@
-name: "[PUSH] Create Package"
+name: "[PUSH] Create Package BETA"
 on:
   workflow_dispatch:
   push:
@@ -9,7 +9,7 @@ on:
 jobs:
   create-package:
     name: Run Package Creation
-    uses: navikt/crm-workflows-base/.github/workflows/packageCreate.yml@master
+    uses: navikt/crm-workflows-base/.github/workflows/packageCreateBeta.yml@master
     permissions:
-      contents: write
+        contents: write
     secrets: inherit
