@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <decisions>
+        <name>Check_if_active_user_deactivation_process_exists</name>
+        <label>Check if active user deactivation process exists</label>
+        <locationX>176</locationX>
+        <locationY>350</locationY>
+        <defaultConnector>
+            <targetReference>New_extract</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>New process</defaultConnectorLabel>
+        <rules>
+            <name>Existing_user_deactivation_process</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_active_user_activation_process</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <label>Existing process</label>
+        </rules>
+    </decisions>
+    <formulas>
+        <name>Numberofdayssincelastlogin</name>
+        <dataType>Number</dataType>
+        <expression>{!$Flow.CurrentDate}-{!Last_Login_date}</expression>
+        <scale>0</scale>
+    </formulas>
+    <interviewLabel>User deactivation {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Deaktiver brukere</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <recordLookups>
+        <description>Check if a user deactivation process already has started</description>
+        <name>Get_active_user_activation_process</name>
+        <label>Get active user activation process</label>
+        <locationX>176</locationX>
+        <locationY>242</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Check_if_active_user_deactivation_process_exists</targetReference>
+        </connector>
+        <filters>
+            <field>DeactivationDate__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>UserDeactivation__c</object>
+        <sortField>CreatedDate</sortField>
+        <sortOrder>Asc</sortOrder>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_profiles_for_deactivation</name>
+        <label>Get profiles for deactivation</label>
+        <locationX>176</locationX>
+        <locationY>134</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_active_user_activation_process</targetReference>
+        </connector>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>User_Deactivation_Profile__mdt</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <screens>
+        <name>New_extract</name>
+        <label>Nytt uttrekk</label>
+        <locationX>308</locationX>
+        <locationY>458</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>Select_Due_Date</targetReference>
+        </connector>
+        <fields>
+            <name>Last_Login_date</name>
+            <dataType>Date</dataType>
+            <fieldText>Dato for siste innlogging</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+            <validationRule>
+                <errorMessage>&lt;p&gt;&lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt;Valgt dato må være enn 60 dager siden.&lt;/span&gt;&lt;/p&gt;</errorMessage>
+                <formulaExpression>{!Numberofdayssincelastlogin}&gt;60</formulaExpression>
+            </validationRule>
+        </fields>
+        <fields>
+            <name>Description</name>
+            <fieldText>&lt;p&gt;Systemet vil hente alle brukere som ikke har logget inn siden valgt dato.&lt;/p&gt;&lt;p&gt;NB! Brukere som har blitt opprettet i løpet av siste 30 dager kommer ikke med i dette uttrekket.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <name>Select_Due_Date</name>
+        <label>Velg frist</label>
+        <locationX>308</locationX>
+        <locationY>566</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>Desciption_Due_Date</name>
+            <fieldText>&lt;p&gt;{!Numberofdayssincelastlogin}&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Get_profiles_for_deactivation</targetReference>
+        </connector>
+    </start>
+    <status>Draft</status>
+</Flow>
