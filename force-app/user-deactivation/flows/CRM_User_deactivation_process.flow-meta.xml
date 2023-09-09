@@ -1,10 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Get_number_of_users_who_should_be_deactivated</name>
+        <label>Get number of users who should be deactivated</label>
+        <locationX>374</locationX>
+        <locationY>866</locationY>
+        <actionName>UserDeactivationUtil</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>Select_Due_Date</targetReference>
+        </connector>
+        <inputParameters>
+            <name>lastLoginDates</name>
+            <value>
+                <elementReference>Input_last_login_date</elementReference>
+            </value>
+        </inputParameters>
+        <outputParameters>
+            <assignToReference>Number_of_users</assignToReference>
+            <name>output</name>
+        </outputParameters>
+    </actionCalls>
+    <assignments>
+        <name>Set_input_login_date</name>
+        <label>Set input login date</label>
+        <locationX>374</locationX>
+        <locationY>458</locationY>
+        <assignmentItems>
+            <assignToReference>Input_last_login_date</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Last_Login_date</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Check_if_test_user_should_be_used</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Set_last_ogin_date_to_today</name>
+        <label>Set last login date to today</label>
+        <locationX>242</locationX>
+        <locationY>674</locationY>
+        <assignmentItems>
+            <assignToReference>Input_last_login_date</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Get_number_of_users_who_should_be_deactivated</targetReference>
+        </connector>
+    </assignments>
     <decisions>
         <name>Check_if_active_user_deactivation_process_exists</name>
         <label>Check if active user deactivation process exists</label>
         <locationX>176</locationX>
-        <locationY>350</locationY>
+        <locationY>242</locationY>
         <defaultConnector>
             <targetReference>New_extract</targetReference>
         </defaultConnector>
@@ -22,12 +75,31 @@
             <label>Existing process</label>
         </rules>
     </decisions>
-    <formulas>
-        <name>Numberofdayssincelastlogin</name>
-        <dataType>Number</dataType>
-        <expression>{!$Flow.CurrentDate}-{!Last_Login_date}</expression>
-        <scale>0</scale>
-    </formulas>
+    <decisions>
+        <name>Check_if_test_user_should_be_used</name>
+        <label>Check if test user should be used</label>
+        <locationX>374</locationX>
+        <locationY>566</locationY>
+        <defaultConnector>
+            <targetReference>Get_number_of_users_who_should_be_deactivated</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Actual users</defaultConnectorLabel>
+        <rules>
+            <name>Test_user_is_selected</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Test_with_logged_in_user</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_last_ogin_date_to_today</targetReference>
+            </connector>
+            <label>Test user is selected</label>
+        </rules>
+    </decisions>
     <interviewLabel>User deactivation {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Deaktiver brukere</label>
     <processMetadataValues>
@@ -54,7 +126,7 @@
         <name>Get_active_user_activation_process</name>
         <label>Get active user activation process</label>
         <locationX>176</locationX>
-        <locationY>242</locationY>
+        <locationY>134</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Check_if_active_user_deactivation_process_exists</targetReference>
@@ -72,29 +144,16 @@
         <sortOrder>Asc</sortOrder>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
-    <recordLookups>
-        <name>Get_profiles_for_deactivation</name>
-        <label>Get profiles for deactivation</label>
-        <locationX>176</locationX>
-        <locationY>134</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>Get_active_user_activation_process</targetReference>
-        </connector>
-        <getFirstRecordOnly>false</getFirstRecordOnly>
-        <object>User_Deactivation_Profile__mdt</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordLookups>
     <screens>
         <name>New_extract</name>
         <label>Nytt uttrekk</label>
-        <locationX>308</locationX>
-        <locationY>458</locationY>
+        <locationX>374</locationX>
+        <locationY>350</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <connector>
-            <targetReference>Select_Due_Date</targetReference>
+            <targetReference>Set_input_login_date</targetReference>
         </connector>
         <fields>
             <name>Last_Login_date</name>
@@ -104,7 +163,7 @@
             <isRequired>true</isRequired>
             <validationRule>
                 <errorMessage>&lt;p&gt;&lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt;Valgt dato må være enn 60 dager siden.&lt;/span&gt;&lt;/p&gt;</errorMessage>
-                <formulaExpression>{!Numberofdayssincelastlogin}&gt;60</formulaExpression>
+                <formulaExpression>({!$Flow.CurrentDate}-{!Last_Login_date})&gt;60</formulaExpression>
             </validationRule>
         </fields>
         <fields>
@@ -112,21 +171,39 @@
             <fieldText>&lt;p&gt;Systemet vil hente alle brukere som ikke har logget inn siden valgt dato.&lt;/p&gt;&lt;p&gt;NB! Brukere som har blitt opprettet i løpet av siste 30 dager kommer ikke med i dette uttrekket.&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
+        <fields>
+            <name>Test_with_logged_in_user</name>
+            <dataType>Boolean</dataType>
+            <fieldText>Test med din bruker</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
         <showFooter>true</showFooter>
         <showHeader>true</showHeader>
     </screens>
     <screens>
         <name>Select_Due_Date</name>
         <label>Velg frist</label>
-        <locationX>308</locationX>
-        <locationY>566</locationY>
+        <locationX>374</locationX>
+        <locationY>974</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <fields>
-            <name>Desciption_Due_Date</name>
-            <fieldText>&lt;p&gt;{!Numberofdayssincelastlogin}&lt;/p&gt;</fieldText>
+            <name>Show_number_of_users</name>
+            <fieldText>&lt;p&gt;&lt;strong&gt;{!Number_of_users}&lt;/strong&gt; brukere har ikke vært innlogget siden {!Last_Login_date}.&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>Due_Date</name>
+            <dataType>Date</dataType>
+            <fieldText>Frist</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+            <validationRule>
+                <errorMessage>&lt;p&gt;&lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt;Fristen må være minst 7 dager fram i tid.&lt;/span&gt;&lt;/p&gt;</errorMessage>
+                <formulaExpression>({!Due_Date}-{!$Flow.CurrentDate})&gt;=7</formulaExpression>
+            </validationRule>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>true</showHeader>
@@ -135,8 +212,23 @@
         <locationX>50</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>Get_profiles_for_deactivation</targetReference>
+            <targetReference>Get_active_user_activation_process</targetReference>
         </connector>
     </start>
     <status>Draft</status>
+    <variables>
+        <name>Input_last_login_date</name>
+        <dataType>Date</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>Number_of_users</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+    </variables>
 </Flow>
