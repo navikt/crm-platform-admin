@@ -12,6 +12,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>UserDeactivation__c.IsTest__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>UserDeactivation__c.LastLoginDate__c</field>
         <readable>true</readable>
     </fieldPermissions>

@@ -3,9 +3,9 @@
     <actionCalls>
         <name>Get_number_of_users_who_should_be_deactivated</name>
         <label>Get number of users who should be deactivated</label>
-        <locationX>374</locationX>
+        <locationX>446</locationX>
         <locationY>866</locationY>
-        <actionName>UserDeactivationUtil</actionName>
+        <actionName>UserDeactivationGetUsers</actionName>
         <actionType>apex</actionType>
         <connector>
             <targetReference>Select_Due_Date</targetReference>
@@ -21,10 +21,49 @@
             <name>output</name>
         </outputParameters>
     </actionCalls>
+    <actionCalls>
+        <name>Recheck_number_of_users</name>
+        <label>Recheck number of users</label>
+        <locationX>50</locationX>
+        <locationY>350</locationY>
+        <actionName>UserDeactivationGetUsers</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>Status</targetReference>
+        </connector>
+        <inputParameters>
+            <name>lastLoginDates</name>
+            <value>
+                <elementReference>Get_active_user_activation_process.LastLoginDate__c</elementReference>
+            </value>
+        </inputParameters>
+        <outputParameters>
+            <assignToReference>Number_of_users</assignToReference>
+            <name>output</name>
+        </outputParameters>
+    </actionCalls>
+    <actionCalls>
+        <name>Send_email_notifications</name>
+        <label>Send email notifications</label>
+        <locationX>446</locationX>
+        <locationY>1190</locationY>
+        <actionName>UserDeactivationSendEmails</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>Notification_Confirmation</targetReference>
+        </connector>
+        <inputParameters>
+            <name>userDeactivationId</name>
+            <value>
+                <elementReference>User_Deactivation_Record_ID</elementReference>
+            </value>
+        </inputParameters>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
     <assignments>
         <name>Set_input_login_date</name>
         <label>Set input login date</label>
-        <locationX>374</locationX>
+        <locationX>446</locationX>
         <locationY>458</locationY>
         <assignmentItems>
             <assignToReference>Input_last_login_date</assignToReference>
@@ -40,7 +79,7 @@
     <assignments>
         <name>Set_last_ogin_date_to_today</name>
         <label>Set last login date to today</label>
-        <locationX>242</locationX>
+        <locationX>314</locationX>
         <locationY>674</locationY>
         <assignmentItems>
             <assignToReference>Input_last_login_date</assignToReference>
@@ -56,7 +95,7 @@
     <decisions>
         <name>Check_if_active_user_deactivation_process_exists</name>
         <label>Check if active user deactivation process exists</label>
-        <locationX>176</locationX>
+        <locationX>248</locationX>
         <locationY>242</locationY>
         <defaultConnector>
             <targetReference>New_extract</targetReference>
@@ -72,13 +111,16 @@
                     <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
+            <connector>
+                <targetReference>Recheck_number_of_users</targetReference>
+            </connector>
             <label>Existing process</label>
         </rules>
     </decisions>
     <decisions>
         <name>Check_if_test_user_should_be_used</name>
         <label>Check if test user should be used</label>
-        <locationX>374</locationX>
+        <locationX>446</locationX>
         <locationY>566</locationY>
         <defaultConnector>
             <targetReference>Get_number_of_users_who_should_be_deactivated</targetReference>
@@ -100,6 +142,12 @@
             <label>Test user is selected</label>
         </rules>
     </decisions>
+    <formulas>
+        <name>Number_of_days_until_due_date</name>
+        <dataType>Number</dataType>
+        <expression>{!Get_active_user_activation_process.DueDate__c}-{!$Flow.CurrentDate}</expression>
+        <scale>0</scale>
+    </formulas>
     <interviewLabel>User deactivation {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Deaktiver brukere</label>
     <processMetadataValues>
@@ -121,11 +169,52 @@
         </value>
     </processMetadataValues>
     <processType>Flow</processType>
+    <recordCreates>
+        <name>Create_User_Deactivation_record</name>
+        <label>Create User Deactivation record</label>
+        <locationX>446</locationX>
+        <locationY>1082</locationY>
+        <assignRecordIdToReference>User_Deactivation_Record_ID</assignRecordIdToReference>
+        <connector>
+            <targetReference>Send_email_notifications</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>DueDate__c</field>
+            <value>
+                <elementReference>Due_Date</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>IsTest__c</field>
+            <value>
+                <elementReference>Test_with_logged_in_user</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>LastLoginDate__c</field>
+            <value>
+                <elementReference>Input_last_login_date</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>NotificationDate__c</field>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>NumberOfNotifications__c</field>
+            <value>
+                <elementReference>Number_of_users</elementReference>
+            </value>
+        </inputAssignments>
+        <object>UserDeactivation__c</object>
+    </recordCreates>
     <recordLookups>
         <description>Check if a user deactivation process already has started</description>
         <name>Get_active_user_activation_process</name>
         <label>Get active user activation process</label>
-        <locationX>176</locationX>
+        <locationX>248</locationX>
         <locationY>134</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -147,7 +236,7 @@
     <screens>
         <name>New_extract</name>
         <label>Nytt uttrekk</label>
-        <locationX>374</locationX>
+        <locationX>446</locationX>
         <locationY>350</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -162,13 +251,16 @@
             <fieldType>InputField</fieldType>
             <isRequired>true</isRequired>
             <validationRule>
-                <errorMessage>&lt;p&gt;&lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt;Valgt dato må være enn 60 dager siden.&lt;/span&gt;&lt;/p&gt;</errorMessage>
+                <errorMessage>&lt;p&gt;&lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt;Valgt
+                    dato må være enn 60 dager siden.&lt;/span&gt;&lt;/p&gt;</errorMessage>
                 <formulaExpression>({!$Flow.CurrentDate}-{!Last_Login_date})&gt;60</formulaExpression>
             </validationRule>
         </fields>
         <fields>
             <name>Description</name>
-            <fieldText>&lt;p&gt;Systemet vil hente alle brukere som ikke har logget inn siden valgt dato.&lt;/p&gt;&lt;p&gt;NB! Brukere som har blitt opprettet i løpet av siste 30 dager kommer ikke med i dette uttrekket.&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p&gt;Systemet vil hente alle brukere som ikke har logget inn siden valgt
+                dato.&lt;/p&gt;&lt;p&gt;NB! Brukere som har blitt opprettet i løpet av siste 30
+                dager kommer ikke med i dette uttrekket.&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
@@ -182,16 +274,36 @@
         <showHeader>true</showHeader>
     </screens>
     <screens>
-        <name>Select_Due_Date</name>
-        <label>Velg frist</label>
-        <locationX>374</locationX>
-        <locationY>974</locationY>
+        <name>Notification_Confirmation</name>
+        <label>Bekreft utsendelse</label>
+        <locationX>446</locationX>
+        <locationY>1298</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <fields>
+            <name>Notification_Confirmation_Description</name>
+            <fieldText>&lt;p&gt;E-post varsel sendes nå ut til {!Number_of_users} brukere.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Kjør samme flow når fristen ({!Due_Date}) er utløpt for å deaktivere brukere som ikke har respondert på varselet.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <name>Select_Due_Date</name>
+        <label>Velg frist</label>
+        <locationX>446</locationX>
+        <locationY>974</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>Create_User_Deactivation_record</targetReference>
+        </connector>
+        <fields>
             <name>Show_number_of_users</name>
-            <fieldText>&lt;p&gt;&lt;strong&gt;{!Number_of_users}&lt;/strong&gt; brukere har ikke vært innlogget siden {!Last_Login_date}.&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p&gt;&lt;strong&gt;{!Number_of_users}&lt;/strong&gt; brukere har ikke
+                vært innlogget siden {!Last_Login_date}.&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
@@ -201,15 +313,56 @@
             <fieldType>InputField</fieldType>
             <isRequired>true</isRequired>
             <validationRule>
-                <errorMessage>&lt;p&gt;&lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt;Fristen må være minst 7 dager fram i tid.&lt;/span&gt;&lt;/p&gt;</errorMessage>
+                <errorMessage>&lt;p&gt;&lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt;Fristen
+                    må være minst 7 dager fram i tid.&lt;/span&gt;&lt;/p&gt;</errorMessage>
                 <formulaExpression>({!Due_Date}-{!$Flow.CurrentDate})&gt;=7</formulaExpression>
             </validationRule>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>true</showHeader>
     </screens>
-    <start>
+    <screens>
+        <name>Status</name>
+        <label>Status</label>
         <locationX>50</locationX>
+        <locationY>458</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>Status_description</name>
+            <fieldText>&lt;p&gt;&lt;strong&gt;{!Number_of_users}&lt;/strong&gt; brukere har ikke vært innlogget siden {!Get_active_user_activation_process.LastLoginDate__c}.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;{!Get_active_user_activation_process.NumberOfNotifications__c} &lt;/strong&gt;mottok varsel {!Get_active_user_activation_process.NotificationDate__c}, med frist {!Get_active_user_activation_process.DueDate__c}.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>Create_csv_file_for_users_who_need_to_be_deactivated</name>
+            <dataType>Boolean</dataType>
+            <fieldText>Lag csv-fil med brukere som skal deaktiveres</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+            <visibilityRule>
+                <conditionLogic>or</conditionLogic>
+                <conditions>
+                    <leftValueReference>Number_of_days_until_due_date</leftValueReference>
+                    <operator>LessThan</operator>
+                    <rightValue>
+                        <numberValue>0.0</numberValue>
+                    </rightValue>
+                </conditions>
+                <conditions>
+                    <leftValueReference>Get_active_user_activation_process.IsTest__c</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <booleanValue>true</booleanValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <start>
+        <locationX>122</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Get_active_user_activation_process</targetReference>
@@ -230,5 +383,12 @@
         <isInput>false</isInput>
         <isOutput>false</isOutput>
         <scale>0</scale>
+    </variables>
+    <variables>
+        <name>User_Deactivation_Record_ID</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
     </variables>
 </Flow>
