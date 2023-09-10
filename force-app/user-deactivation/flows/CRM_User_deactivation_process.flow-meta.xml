@@ -24,7 +24,7 @@
     <actionCalls>
         <name>Get_number_of_users_who_should_be_deactivated</name>
         <label>Get number of users who should be deactivated</label>
-        <locationX>622</locationX>
+        <locationX>710</locationX>
         <locationY>866</locationY>
         <actionName>UserDeactivationGetUsers</actionName>
         <actionType>apex</actionType>
@@ -43,19 +43,19 @@
         </outputParameters>
     </actionCalls>
     <actionCalls>
-        <name>Recheck_number_of_users</name>
-        <label>Recheck number of users</label>
+        <name>Recheck_users_to_be_deactivated</name>
+        <label>Recheck users to be deactivated</label>
         <locationX>182</locationX>
         <locationY>350</locationY>
-        <actionName>UserDeactivationGetUsers</actionName>
+        <actionName>UserDeactivationGetUsersNotifications</actionName>
         <actionType>apex</actionType>
         <connector>
             <targetReference>Status</targetReference>
         </connector>
         <inputParameters>
-            <name>lastLoginDates</name>
+            <name>userDeactivationId</name>
             <value>
-                <elementReference>Get_active_user_activation_process.LastLoginDate__c</elementReference>
+                <elementReference>Get_active_user_activation_process.Id</elementReference>
             </value>
         </inputParameters>
         <outputParameters>
@@ -66,7 +66,7 @@
     <actionCalls>
         <name>Send_email_notifications</name>
         <label>Send email notifications</label>
-        <locationX>622</locationX>
+        <locationX>710</locationX>
         <locationY>1190</locationY>
         <actionName>UserDeactivationSendEmails</actionName>
         <actionType>apex</actionType>
@@ -116,7 +116,7 @@
     <assignments>
         <name>Set_input_login_date</name>
         <label>Set input login date</label>
-        <locationX>622</locationX>
+        <locationX>710</locationX>
         <locationY>458</locationY>
         <assignmentItems>
             <assignToReference>Input_last_login_date</assignToReference>
@@ -132,7 +132,7 @@
     <assignments>
         <name>Set_last_ogin_date_to_today</name>
         <label>Set last login date to today</label>
-        <locationX>490</locationX>
+        <locationX>578</locationX>
         <locationY>674</locationY>
         <assignmentItems>
             <assignToReference>Input_last_login_date</assignToReference>
@@ -148,7 +148,7 @@
     <decisions>
         <name>Check_if_active_user_deactivation_process_exists</name>
         <label>Check if active user deactivation process exists</label>
-        <locationX>402</locationX>
+        <locationX>446</locationX>
         <locationY>242</locationY>
         <defaultConnector>
             <targetReference>New_extract</targetReference>
@@ -165,7 +165,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Recheck_number_of_users</targetReference>
+                <targetReference>Recheck_users_to_be_deactivated</targetReference>
             </connector>
             <label>Existing process</label>
         </rules>
@@ -195,7 +195,7 @@
     <decisions>
         <name>Check_if_test_user_should_be_used</name>
         <label>Check if test user should be used</label>
-        <locationX>622</locationX>
+        <locationX>710</locationX>
         <locationY>566</locationY>
         <defaultConnector>
             <targetReference>Get_number_of_users_who_should_be_deactivated</targetReference>
@@ -252,7 +252,7 @@
     <recordCreates>
         <name>Create_User_Deactivation_record</name>
         <label>Create User Deactivation record</label>
-        <locationX>622</locationX>
+        <locationX>710</locationX>
         <locationY>1082</locationY>
         <assignRecordIdToReference>User_Deactivation_Record_ID</assignRecordIdToReference>
         <connector>
@@ -294,7 +294,7 @@
         <description>Check if a user deactivation process already has started</description>
         <name>Get_active_user_activation_process</name>
         <label>Get active user activation process</label>
-        <locationX>402</locationX>
+        <locationX>446</locationX>
         <locationY>134</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -345,7 +345,7 @@
     <screens>
         <name>New_extract</name>
         <label>Nytt uttrekk</label>
-        <locationX>622</locationX>
+        <locationX>710</locationX>
         <locationY>350</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -367,9 +367,7 @@
         </fields>
         <fields>
             <name>Description</name>
-            <fieldText>&lt;p&gt;Systemet vil hente alle brukere som ikke har logget inn siden valgt
-                dato.&lt;/p&gt;&lt;p&gt;NB! Brukere som har blitt opprettet i løpet av siste 30
-                dager kommer ikke med i dette uttrekket.&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p&gt;Systemet vil hente alle brukere som ikke har logget inn siden valgt dato.&lt;/p&gt;&lt;p&gt;NB! Brukere som har blitt opprettet i løpet av siste 30  dager kommer ikke med i dette uttrekket.&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
@@ -385,7 +383,7 @@
     <screens>
         <name>Notification_Confirmation</name>
         <label>Bekreft utsendelse</label>
-        <locationX>622</locationX>
+        <locationX>710</locationX>
         <locationY>1298</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -401,7 +399,7 @@
     <screens>
         <name>Select_Due_Date</name>
         <label>Velg frist</label>
-        <locationX>622</locationX>
+        <locationX>710</locationX>
         <locationY>974</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -411,8 +409,7 @@
         </connector>
         <fields>
             <name>Show_number_of_users</name>
-            <fieldText>&lt;p&gt;&lt;strong&gt;{!Number_of_users}&lt;/strong&gt; brukere har ikke
-                vært innlogget siden {!Last_Login_date}.&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p&gt;&lt;strong&gt;{!Number_of_users}&lt;/strong&gt; brukere har ikke vært innlogget siden {!Last_Login_date}.&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
@@ -474,7 +471,7 @@
         <showHeader>true</showHeader>
     </screens>
     <start>
-        <locationX>276</locationX>
+        <locationX>320</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Get_active_user_activation_process</targetReference>
