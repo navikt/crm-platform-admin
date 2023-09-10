@@ -1,9 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <actionCalls>
+        <name>Generate_CSV_files</name>
+        <label>Generate CSV files</label>
+        <locationX>50</locationX>
+        <locationY>674</locationY>
+        <actionName>UserDeactivationCreateCSV</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>Log_number_of_deactivated_user</targetReference>
+        </connector>
+        <inputParameters>
+            <name>userDeactivationId</name>
+            <value>
+                <elementReference>Get_active_user_activation_process.Id</elementReference>
+            </value>
+        </inputParameters>
+        <outputParameters>
+            <assignToReference>Number_of_users</assignToReference>
+            <name>output</name>
+        </outputParameters>
+    </actionCalls>
+    <actionCalls>
         <name>Get_number_of_users_who_should_be_deactivated</name>
         <label>Get number of users who should be deactivated</label>
-        <locationX>446</locationX>
+        <locationX>622</locationX>
         <locationY>866</locationY>
         <actionName>UserDeactivationGetUsers</actionName>
         <actionType>apex</actionType>
@@ -24,7 +45,7 @@
     <actionCalls>
         <name>Recheck_number_of_users</name>
         <label>Recheck number of users</label>
-        <locationX>50</locationX>
+        <locationX>182</locationX>
         <locationY>350</locationY>
         <actionName>UserDeactivationGetUsers</actionName>
         <actionType>apex</actionType>
@@ -45,7 +66,7 @@
     <actionCalls>
         <name>Send_email_notifications</name>
         <label>Send email notifications</label>
-        <locationX>446</locationX>
+        <locationX>622</locationX>
         <locationY>1190</locationY>
         <actionName>UserDeactivationSendEmails</actionName>
         <actionType>apex</actionType>
@@ -60,10 +81,42 @@
         </inputParameters>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </actionCalls>
+    <actionCalls>
+        <name>Send_link_to_CSV_files</name>
+        <label>Send link to CSV files</label>
+        <locationX>50</locationX>
+        <locationY>890</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <inputParameters>
+            <name>emailAddresses</name>
+            <value>
+                <elementReference>$User.Email</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <stringValue>Deaktivering av brukere</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <elementReference>Record_link</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>relatedRecordId</name>
+            <value>
+                <elementReference>Get_active_user_activation_process.Id</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
     <assignments>
         <name>Set_input_login_date</name>
         <label>Set input login date</label>
-        <locationX>446</locationX>
+        <locationX>622</locationX>
         <locationY>458</locationY>
         <assignmentItems>
             <assignToReference>Input_last_login_date</assignToReference>
@@ -79,7 +132,7 @@
     <assignments>
         <name>Set_last_ogin_date_to_today</name>
         <label>Set last login date to today</label>
-        <locationX>314</locationX>
+        <locationX>490</locationX>
         <locationY>674</locationY>
         <assignmentItems>
             <assignToReference>Input_last_login_date</assignToReference>
@@ -95,7 +148,7 @@
     <decisions>
         <name>Check_if_active_user_deactivation_process_exists</name>
         <label>Check if active user deactivation process exists</label>
-        <locationX>248</locationX>
+        <locationX>402</locationX>
         <locationY>242</locationY>
         <defaultConnector>
             <targetReference>New_extract</targetReference>
@@ -118,9 +171,31 @@
         </rules>
     </decisions>
     <decisions>
+        <name>Check_if_CSV_files_should_be_generated</name>
+        <label>Check if CSV files should be generated</label>
+        <locationX>182</locationX>
+        <locationY>566</locationY>
+        <defaultConnectorLabel>No CSV files will be created</defaultConnectorLabel>
+        <rules>
+            <name>Create_CSV_files_is_chosen</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Create_csv_files_for_users_who_need_to_be_deactivated</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Generate_CSV_files</targetReference>
+            </connector>
+            <label>Create CSV files is chosen</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Check_if_test_user_should_be_used</name>
         <label>Check if test user should be used</label>
-        <locationX>446</locationX>
+        <locationX>622</locationX>
         <locationY>566</locationY>
         <defaultConnector>
             <targetReference>Get_number_of_users_who_should_be_deactivated</targetReference>
@@ -148,6 +223,11 @@
         <expression>{!Get_active_user_activation_process.DueDate__c}-{!$Flow.CurrentDate}</expression>
         <scale>0</scale>
     </formulas>
+    <formulas>
+        <name>Record_link</name>
+        <dataType>String</dataType>
+        <expression>LEFT({!$Api.Partner_Server_URL_260}, FIND( &apos;/services&apos;, {!$Api.Partner_Server_URL_260})) + {!Get_active_user_activation_process.Id}</expression>
+    </formulas>
     <interviewLabel>User deactivation {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Deaktiver brukere</label>
     <processMetadataValues>
@@ -172,7 +252,7 @@
     <recordCreates>
         <name>Create_User_Deactivation_record</name>
         <label>Create User Deactivation record</label>
-        <locationX>446</locationX>
+        <locationX>622</locationX>
         <locationY>1082</locationY>
         <assignRecordIdToReference>User_Deactivation_Record_ID</assignRecordIdToReference>
         <connector>
@@ -214,7 +294,7 @@
         <description>Check if a user deactivation process already has started</description>
         <name>Get_active_user_activation_process</name>
         <label>Get active user activation process</label>
-        <locationX>248</locationX>
+        <locationX>402</locationX>
         <locationY>134</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -233,10 +313,39 @@
         <sortOrder>Asc</sortOrder>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
+    <recordUpdates>
+        <name>Log_number_of_deactivated_user</name>
+        <label>Log number of deactivated user</label>
+        <locationX>50</locationX>
+        <locationY>782</locationY>
+        <connector>
+            <targetReference>Send_link_to_CSV_files</targetReference>
+        </connector>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_active_user_activation_process.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>DeactivationDate__c</field>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>NumberOfDeactivated__c</field>
+            <value>
+                <elementReference>Number_of_users</elementReference>
+            </value>
+        </inputAssignments>
+        <object>UserDeactivation__c</object>
+    </recordUpdates>
     <screens>
         <name>New_extract</name>
         <label>Nytt uttrekk</label>
-        <locationX>446</locationX>
+        <locationX>622</locationX>
         <locationY>350</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -276,7 +385,7 @@
     <screens>
         <name>Notification_Confirmation</name>
         <label>Bekreft utsendelse</label>
-        <locationX>446</locationX>
+        <locationX>622</locationX>
         <locationY>1298</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -292,7 +401,7 @@
     <screens>
         <name>Select_Due_Date</name>
         <label>Velg frist</label>
-        <locationX>446</locationX>
+        <locationX>622</locationX>
         <locationY>974</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -324,20 +433,23 @@
     <screens>
         <name>Status</name>
         <label>Status</label>
-        <locationX>50</locationX>
+        <locationX>182</locationX>
         <locationY>458</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
+        <connector>
+            <targetReference>Check_if_CSV_files_should_be_generated</targetReference>
+        </connector>
         <fields>
             <name>Status_description</name>
             <fieldText>&lt;p&gt;&lt;strong&gt;{!Number_of_users}&lt;/strong&gt; brukere har ikke vært innlogget siden {!Get_active_user_activation_process.LastLoginDate__c}.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;{!Get_active_user_activation_process.NumberOfNotifications__c} &lt;/strong&gt;mottok varsel {!Get_active_user_activation_process.NotificationDate__c}, med frist {!Get_active_user_activation_process.DueDate__c}.&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
-            <name>Create_csv_file_for_users_who_need_to_be_deactivated</name>
+            <name>Create_csv_files_for_users_who_need_to_be_deactivated</name>
             <dataType>Boolean</dataType>
-            <fieldText>Lag csv-fil med brukere som skal deaktiveres</fieldText>
+            <fieldText>Lag csv-filer med brukere som skal deaktiveres</fieldText>
             <fieldType>InputField</fieldType>
             <isRequired>true</isRequired>
             <visibilityRule>
@@ -362,7 +474,7 @@
         <showHeader>true</showHeader>
     </screens>
     <start>
-        <locationX>122</locationX>
+        <locationX>276</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Get_active_user_activation_process</targetReference>
