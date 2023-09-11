@@ -1,6 +1,5 @@
 @IsTest
 private class UserDeactivationGetUsers_Test {
-    
     @IsTest
     private static void testGetUsersToBeDeactivated_withTestUser(){
         Date lastLoginDate=Date.today();
