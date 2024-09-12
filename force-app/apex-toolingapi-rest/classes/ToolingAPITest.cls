@@ -334,6 +334,32 @@ private class ToolingAPITest {
         jsonGen.writeEndObject();
     }
 
+
+    @IsTest
+    static void testNamedCredentials() {
+        Test.setMock(HttpCalloutMock.class, new ToolingAPIMock(testFieldResponse, 200));
+        ToolingAPI toolingAPI = new ToolingAPI('namedCredentials');
+        Test.startTest();
+        List<ToolingAPI.CustomField> result = (List<ToolingAPI.CustomField>) toolingAPI.query(
+                'Select Id, DeveloperName, NamespacePrefix, TableEnumOrId From CustomField Where TableEnumOrId = \'01IG00000021cXoMAI\''
+            )
+            .records;
+        Test.stopTest();
+        System.assertEquals(result.size(), 1);
+        System.assertEquals(result[0].DeveloperName, 'A_Number');
+    }
+
+    @IsTest
+    static void testDescribeGlobal(){
+        Test.setMock(HttpCalloutMock.class, new ToolingAPIMock(testFieldResponse, 200));
+        ToolingAPI toolingAPI = new ToolingAPI();
+        Test.startTest();
+        ToolingApi.DescribeGlobalResult result=toolingApi.describeGlobal();
+        Test.stopTest();
+        System.assertNotEquals(null,result);
+        
+    }
+
     public class ToolingAPIMock implements HttpCalloutMock {
         private String testResponse;
         private Integer testStatusCode;
